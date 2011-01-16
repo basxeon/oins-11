@@ -1,9 +1,12 @@
 package oins.core;
 
+import java.awt.CardLayout;
 import java.awt.Container;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
+import oins.panels.ConversationPanel;
 import oins.panels.SendArpPanel;
 
 /**
@@ -13,17 +16,46 @@ public class ConvFrame {
 
     private static final String FRAMENAME = "Komunikator PADSTEG";;
     private static final long serialVersionUID = 7264967178880598959L;
-    private static final Integer SIZEX = new Integer(440);
-    private static final Integer SIZEY = new Integer(280);
+    private static final String SENDARPPANEL = "sendArpPanel";
+    private static final String CONVPANEL = "conversationPanel";
+    private static final Integer SIZEX = new Integer(540);
+    private static final Integer SIZEY = new Integer(380);
 
+    private static JPanel switchPanel;
+    private static CardLayout cardlo;
+    private static String cardState;
     private SendArpPanel sendArpPanel;
+    private ConversationPanel conversationPanel;
 
     private void addComponentToPane(Container pane) {
 
+        switchPanel = new JPanel();
+        cardlo = new CardLayout();
+        switchPanel.setLayout(cardlo);
+        cardState = SENDARPPANEL;
+
         sendArpPanel = new SendArpPanel();
+        conversationPanel = new ConversationPanel();
 
-        pane.add(sendArpPanel);
+        switchPanel.add(sendArpPanel, SENDARPPANEL);
+        switchPanel.add(conversationPanel, CONVPANEL);
 
+        cardlo.show(switchPanel, cardState);
+
+        pane.add(switchPanel);
+
+        // pane.add(sendArpPanel);
+
+    }
+
+    public static void changeCard() {
+        if (cardState == SENDARPPANEL) {
+            cardlo.show(switchPanel, CONVPANEL);
+            cardState = CONVPANEL;
+        } else if (cardState == CONVPANEL) {
+            cardlo.show(switchPanel, SENDARPPANEL);
+            cardState = SENDARPPANEL;
+        }
     }
 
     /**
@@ -48,5 +80,8 @@ public class ConvFrame {
             }
         });
     }
+    /*
+     * public static void main(String[] args) { ConvFrame.create(); }
+     */
 
 }

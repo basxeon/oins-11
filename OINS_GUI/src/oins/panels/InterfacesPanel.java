@@ -1,5 +1,6 @@
 package oins.panels;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -38,7 +39,7 @@ public class InterfacesPanel extends GenericPanel {
         super();
         this.loadConfiguration();
 
-        this.setLayout(new GridLayout(3, 1));
+        this.setLayout(new BorderLayout());
         this.setSize(300, 300);
         this.setBackground(Color.blue);
         p1 = new JPanel();
@@ -73,9 +74,9 @@ public class InterfacesPanel extends GenericPanel {
 
         p1.add(but1);
         p1.setBackground(Color.GRAY);
-        this.add(p2);
-        this.add(interfacesTable);
-        this.add(p1);
+        this.add(p2,BorderLayout.NORTH);
+        this.add(interfacesTable,BorderLayout.CENTER);
+        this.add(p1,BorderLayout.SOUTH);
 
     }
 
