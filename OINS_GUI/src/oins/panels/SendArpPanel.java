@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import oins.core.ConvFrame;
+
 public class SendArpPanel extends GenericPanel {
 
     private static final long serialVersionUID = 85203561313987695L;
@@ -51,7 +53,7 @@ public class SendArpPanel extends GenericPanel {
         but1 = new JButton(BUT1);
         but1.setActionCommand(BUT1);
         but1.setPreferredSize(butDimension);
-        but1.setEnabled(false);
+        // but1.setEnabled(false);
 
         butDimension = new Dimension(BUTXSIZE, BUTYSIZE);
         but2 = new JButton(BUT2);
@@ -114,6 +116,7 @@ public class SendArpPanel extends GenericPanel {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(BUT1)) {
+            ConvFrame.changeCard();
         }
     }
 
