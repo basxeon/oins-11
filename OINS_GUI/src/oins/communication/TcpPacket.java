@@ -74,6 +74,7 @@ public class TcpPacket {
 		JPacketHandler<String> sendingHandler = new JPacketHandler<String>() {
 
 			public void nextPacket(JPacket packet, String user) {
+			    try{
 				if(packet.hasHeader(ip)){
 					if(Conversion.equal(ip.destination(), Conversion.convert(getSendip())) &&
 							Conversion.equal(ip.source(), Conversion.convert(NetInterface.getCurrIp()))){
@@ -92,6 +93,8 @@ public class TcpPacket {
 								
 							}
 					}
+				}}catch(Exception e){
+				   System.out.println("Wyjebalo sie 2"); 
 				}
 			}
 		};

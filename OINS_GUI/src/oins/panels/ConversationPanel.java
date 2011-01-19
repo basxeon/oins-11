@@ -38,13 +38,10 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     private static JTextArea txtArea;
     private static JScrollPane areaScrollPane;
     private Integer[] ipSender;
-   
-    
-
 
     public ConversationPanel(Integer[] ipSender) {
-    	super();
-    	this.setIpSender(ipSender);
+        super();
+        this.setIpSender(ipSender);
         this.setLayout(new BorderLayout());
         this.setSize(300, 300);
         p1 = new JPanel();
@@ -75,7 +72,6 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         txtF1 = new JTextField();
         txtF1.setFocusable(false);
         txtF1.setPreferredSize(butDimension);
-        
 
         txtF2 = new JTextField();
         txtF2.setFocusable(true);
@@ -84,7 +80,6 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
                 .createEmptyBorder(1, 1, 1, 1)), txtF2.getBorder()));
         txtF2.requestFocusInWindow();
 
-        
         p6.add(but1);
         p5.add(label1);
         p5.add(txtF1);
@@ -110,12 +105,11 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(BUT1)) {
 
-        	TcpPacket packet = new TcpPacket(this);
-        	
-        	ConversationPanel.setInTxtArea();
-        	System.out.println("Probuje wyslac wiad:"+txtF2.getText());
-        	packet.sendPacket(getIpSender(), txtF2.getText());
-            
+            TcpPacket packet = new TcpPacket(this);
+
+            ConversationPanel.setInTxtArea(txtF2.getText());
+            packet.sendPacket(getIpSender(), txtF2.getText());
+
         }
     }
 
@@ -139,32 +133,26 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         return txtArea;
     }
 
-    public static void setInTxtArea() {
-        String DATE_FORMAT = "HH:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        txtF2.selectAll();
-
-        ConversationPanel.txtArea.append(sdf.format(new java.util.Date()) + "\n");
-        ConversationPanel.txtArea.append(txtF2.getText() + "\n\n");
-    }
     public static void setInTxtArea(String mess) {
         String DATE_FORMAT = "HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-      
-
-        ConversationPanel.txtArea.append(sdf.format(new java.util.Date()) + "\n");
-        ConversationPanel.txtArea.append(mess + "\n\n");
+        if(!txtArea.getText().equals("")){
+            ConversationPanel.txtArea.append("\n\n"); 
+        }
+        ConversationPanel.txtArea.append((sdf.format(new java.util.Date()) + "\n"));
+        ConversationPanel.txtArea.append(mess);
+        ConversationPanel.txtArea.setCaretPosition(txtArea.getDocument().getLength());
+        txtF2.selectAll();
     }
 
     @Override
     public void keyPressed(KeyEvent arg0) {
         switch (arg0.getKeyCode()) {
         case KeyEvent.VK_ENTER:
-        	TcpPacket packet = new TcpPacket(this);
-        	System.out.println("Probuje wyslac wiad:"+txtF2.getText()+"na adres" +getIpSender()[0]);
-        	packet.sendPacket(getIpSender(), txtF2.getText());
-            ConversationPanel.setInTxtArea();
-        	
+            TcpPacket packet = new TcpPacket(this);
+            packet.sendPacket(getIpSender(), txtF2.getText());
+            ConversationPanel.setInTxtArea(txtF2.getText());
+
             break;
         }
     }
@@ -181,16 +169,16 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
 
     }
 
-	private void setIpSender(Integer[] ipSender) {
-		this.ipSender = ipSender;
-	}
+    private void setIpSender(Integer[] ipSender) {
+        this.ipSender = ipSender;
+    }
 
-	public Integer[] getIpSender() {
-		return ipSender;
-	}
-	public void setTxtF1(String text) {
+    public Integer[] getIpSender() {
+        return ipSender;
+    }
+
+    public void setTxtF1(String text) {
         txtF1.setText(text);
     }
 
-  
 }
