@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Timer;
 
 import javax.swing.JButton;
@@ -13,9 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import oins.communication.ArpAvail;
 import oins.communication.ArpListener;
 import oins.communication.NetInterface;
 import oins.core.Application;
+import oins.tables.ContactTable;
 import oins.tables.InterfacesTable;
 
 public class InterfacesPanel extends GenericPanel {
@@ -114,7 +118,21 @@ public class InterfacesPanel extends GenericPanel {
                 InformationPanel.setTxtF3(InterfacesTable.getChoosenInterface());
                 Timer timer1 = new Timer();
                 ArpListener arplist= new ArpListener();
-                timer1.schedule(arplist, 10, ArpListener.ARP_CLEAN*60*1000);
+                
+         timer1.schedule(arplist, 10, ArpListener.ARP_CLEAN*60*1000);
+         ContactTable.updateRowNotAvailAll();
+         ArpAvail avail;
+		try {
+			avail = new ArpAvail(ContactPanel.getIpAdressesInt(),3);
+			avail.sendArp();
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+			
                 Application.changeCard();
             } else
                 return;
