@@ -4,7 +4,6 @@ import javax.swing.JOptionPane;
 
 import oins.panels.ConversationPanel;
 
-
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapBpfProgram;
 import org.jnetpcap.packet.JPacket;
@@ -74,7 +73,8 @@ public class TcpListener extends Thread {
 				}
 				}
 				}
-			}}catch(Exception e){
+                    }
+                } catch(Exception e){
 			System.out.println("wyjebalo sie");}
 			}
 			
