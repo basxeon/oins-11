@@ -148,14 +148,15 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     }
 
     public static void setInTxtArea(String mess) {
-        int i = mess.length();
+        
         String DATE_FORMAT = "HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        System.out.println(mess + "messSize: " + i);
-        String sub = mess.substring(i-1,i);
-        System.out.println("index " + sub);
-        if(mess.substring(i-1, i).equals("**")){
-           buildContent.append(mess.substring(0, i-1));
+        System.out.println("index " + mess);
+        String contain = mess;
+        if(mess.contains("**")){
+            int i = mess.indexOf("**");
+            contain = mess.substring(0,i);
+           buildContent.append(mess.substring(0, i));
            if (!txtArea.getText().equals("")) {
                ConversationPanel.txtArea.append("\n\n");
            }
@@ -164,10 +165,10 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
            ConversationPanel.txtArea.append(buildContent.toString());
            ConversationPanel.txtArea.setCaretPosition(txtArea.getDocument().getLength());
            txtF2.selectAll();
-           buildContent = new StringBuilder();
+           buildContent = new StringBuilder("");
         }
         else{
-            buildContent.append(mess);
+            buildContent.append(contain);
         }
         
         

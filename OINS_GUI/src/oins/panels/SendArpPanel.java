@@ -63,6 +63,8 @@ public class SendArpPanel extends GenericPanel {
         p10 = new JPanel();
         p11 = new JPanel(new BorderLayout());
 
+        currPID = 1;
+
         butDimension = new Dimension(BUTXSIZE, BUTYSIZE);
         but1 = new JButton(BUT1);
         but1.setActionCommand(BUT1);
@@ -79,9 +81,8 @@ public class SendArpPanel extends GenericPanel {
         label1.setPreferredSize(butDimension);
         label2.setPreferredSize(butDimension);
         label3 = new JLabel(LABEL3);
- 
+
         label3.setPreferredSize(butDimension);
-  
 
         txtF1 = new JTextField();
         txtF1.setFocusable(false);
@@ -95,13 +96,12 @@ public class SendArpPanel extends GenericPanel {
         txtF3.setFocusable(false);
         txtF3.setPreferredSize(butDimension);
 
-
         if (ArpListener.isRecieving() == true && ArpListener.isSending() == false) {
-        	SendArpPanel.setTxtF2("Odebrano pakiet Arp");
+            SendArpPanel.setTxtF2("Odebrano pakiet Arp");
             if (ArpListener.getPid() == 1) {
                 SendArpPanel.setTxtF3("TCP");
             } else if (ArpListener.getPid() == 2) {
-            	SendArpPanel.setTxtF3("ICMP");
+                SendArpPanel.setTxtF3("ICMP");
 
             }
         }
@@ -129,7 +129,6 @@ public class SendArpPanel extends GenericPanel {
 
         p9.add(label3);
         p9.add(txtF3);
-
 
         p7.add(but1);
         p11.add(p7, BorderLayout.SOUTH);
@@ -176,20 +175,19 @@ public class SendArpPanel extends GenericPanel {
         } else if (e.getActionCommand().equals(BUT2)) {
             try {
                 // Narazie domyœlnie ustawiam pid=1
-
+                int i = getCurrPID();
                 ArpListener.setSending(true);
                 if (ArpListener.isRecieving() == true && ArpListener.isSending() == true) {
                     ArpPacket arpPacket = new ArpPacket(ArpListener.getCurrIpInt(), getCurrPID());
                     arpPacket.sendArp();
                     but1.setEnabled(true);
                     setTxtF1("Wyslano pakiet Arp");
-                   
 
                 } else {
                     ArpPacket arpPacket = new ArpPacket(getIpAddress(), 1);
                     arpPacket.sendArp();
                     setTxtF1("Wysy³anie...");
-                    
+
                 }
             } catch (NoSuchAlgorithmException e1) {
                 // TODO Auto-generated catch block
@@ -199,14 +197,12 @@ public class SendArpPanel extends GenericPanel {
                 e1.printStackTrace();
             }
 
-        }
-        else if(e.getActionCommand().equals(CHB1)){
-        	setCurrPID(1);
-        	
-        }
-        else if(e.getActionCommand().equals(CHB2)){
-        	setCurrPID(2);
-        	
+        } else if (e.getActionCommand().equals(CHB1)) {
+            setCurrPID(1);
+
+        } else if (e.getActionCommand().equals(CHB2)) {
+            setCurrPID(2);
+
         }
     }
 
@@ -221,8 +217,6 @@ public class SendArpPanel extends GenericPanel {
     public static void setTxtF3(String text) {
         txtF3.setText(text);
     }
-
-
 
     public static JTextField getTxtF1() {
         return txtF1;
@@ -248,12 +242,12 @@ public class SendArpPanel extends GenericPanel {
         return but2;
     }
 
-	public static void setCurrPID(int currPID) {
-		SendArpPanel.currPID = currPID;
-	}
+    public static void setCurrPID(int currPID) {
+        SendArpPanel.currPID = currPID;
+    }
 
-	public static int getCurrPID() {
-		return currPID;
-	}
+    public static int getCurrPID() {
+        return currPID;
+    }
 
 }
