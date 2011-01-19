@@ -23,7 +23,7 @@ import org.jnetpcap.protocol.network.Arp;
 public class ArpListener extends TimerTask {
 
 	private static final Arp arp=new Arp();
-	public static final int ARP_CLEAN=10*60*1000;
+	public static final int ARP_CLEAN=10;
 	private Pcap pcap; 
 	JPacketHandler<String> jpacketHandler;
 	private static int pid;
@@ -95,13 +95,13 @@ public class ArpListener extends TimerTask {
 										setCurrIp(Conversion.toString(temp));
 										setCurrIpInt(temp);
 										System.out.println("Odebralem");
-										SendArpPanel.setTxtF1("Wys³ano pakiet Arp");
+										SendArpPanel.setTxtF2("Wys³ano pakiet Arp");
 										SendArpPanel.getBut1().setEnabled(true);
 										if(getPid()==1){
-											SendArpPanel.setTxtF2("TCP");
+											SendArpPanel.setTxtF4("TCP");
 										}
 										else if(getPid()==2){
-											SendArpPanel.setTxtF2("ICMP");
+											SendArpPanel.setTxtF4("ICMP");
 										}
 									}
 									
@@ -164,7 +164,7 @@ public class ArpListener extends TimerTask {
 		// ilosc pakietow
 			getPcap().loop(1000000, getJpacketHandler(),"OINS");
 			System.out.println("Koniec");
-			//wywolaj metode ktora uaktywni przycisk wyslij arp
+			ConversationPanel.getBut2().setEnabled(true);
 			JOptionPane.showMessageDialog(null, "Wyczysc ARP", "Information", JOptionPane.INFORMATION_MESSAGE);
 			pcap.close();
 	}
