@@ -29,13 +29,14 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     private static final Integer BUTXSIZE = new Integer(120);
     private static final Integer BUTYSIZE = new Integer(25);
     private static final Dimension TXTFILEDSIZE = new Dimension(520, 50);
-    
-    private static String userName;
 
-    private static JButton but1,but2;
+    private static String userName;
+    private static StringBuilder buildContent;
+
+    private static JButton but1, but2;
     private Dimension butDimension;
 
-    private JPanel p1, p2, p3, p4, p5, p6,p7;
+    private JPanel p1, p2, p3, p4, p5, p6, p7;
     private JLabel label1;
     private static JTextField txtF1, txtF2;
     private static JTextArea txtArea;
@@ -54,6 +55,8 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         p5 = new JPanel();
         p6 = new JPanel();
         p7 = new JPanel();
+        
+        buildContent = new StringBuilder();
 
         txtArea = new JTextArea();
         txtArea.setFont(new Font("Serif", Font.ITALIC, 16));
@@ -70,12 +73,12 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         but1 = new JButton(BUT1);
         but1.setActionCommand(BUT1);
         but1.setPreferredSize(butDimension);
-        
-        but2= new JButton(BUT2);
+
+        but2 = new JButton(BUT2);
         but2.setActionCommand(BUT2);
         but2.setPreferredSize(butDimension);
         but2.setEnabled(false);
-        
+
         label1 = new JLabel(LABEL1);
 
         txtF1 = new JTextField();
@@ -93,7 +96,7 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         p5.add(label1);
         p5.add(txtF1);
         p7.add(but2);
-        
+
         p3.add(p7);
         p3.add(p5);
         p3.add(p6);
@@ -145,23 +148,36 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     }
 
     public static void setInTxtArea(String mess) {
+        int i = mess.length();
         String DATE_FORMAT = "HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        if(!txtArea.getText().equals("")){
-            ConversationPanel.txtArea.append("\n\n"); 
+        System.out.println(mess + "messSize: " + i);
+        String sub = mess.substring(i-1,i);
+        System.out.println("index " + sub);
+        if(mess.substring(i-1, i).equals("**")){
+           buildContent.append(mess.substring(0, i-1));
+           if (!txtArea.getText().equals("")) {
+               ConversationPanel.txtArea.append("\n\n");
+           }
+           ConversationPanel.txtArea.append(userName + "     ");
+           ConversationPanel.txtArea.append((sdf.format(new java.util.Date()) + "\n"));
+           ConversationPanel.txtArea.append(buildContent.toString());
+           ConversationPanel.txtArea.setCaretPosition(txtArea.getDocument().getLength());
+           txtF2.selectAll();
+           buildContent = new StringBuilder();
         }
-        ConversationPanel.txtArea.append(userName + "     ");
-        ConversationPanel.txtArea.append((sdf.format(new java.util.Date()) + "\n"));
-        ConversationPanel.txtArea.append(mess);
-        ConversationPanel.txtArea.setCaretPosition(txtArea.getDocument().getLength());
-        txtF2.selectAll();
+        else{
+            buildContent.append(mess);
+        }
+        
+        
     }
-    
+
     public static void setInTxtArea() {
         String DATE_FORMAT = "HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        if(!txtArea.getText().equals("")){
-            ConversationPanel.txtArea.append("\n\n"); 
+        if (!txtArea.getText().equals("")) {
+            ConversationPanel.txtArea.append("\n\n");
         }
         ConversationPanel.txtArea.append("Ja     ");
         ConversationPanel.txtArea.append((sdf.format(new java.util.Date()) + "\n"));
@@ -217,6 +233,5 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     public static void setUserName(String userName) {
         ConversationPanel.userName = userName;
     }
-    
 
 }
