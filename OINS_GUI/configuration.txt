@@ -2,9 +2,9 @@
 #Dane w polach contacts oraz ip_address wpisujemy kolejno oddzielone spacj¹
 
 #contacts
-contacts=Mateusz Robert Igor Zgier
+contacts=Robert Mateusz Rozik Zgier
 
 #ip_address
-ip_address=10/1/0/4 10/10/1/5 10/1/0/2 10/1/0/2
+ip_address=10/1/0/40 10/10/1/50 10/1/0/185 10/1/0/20
 
 interfaces=Realtek Wifi ola
