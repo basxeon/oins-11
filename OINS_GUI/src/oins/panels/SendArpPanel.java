@@ -1,5 +1,6 @@
 package oins.panels;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -14,19 +15,21 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import oins.core.ConvFrame;
-import oins.tables.ContactTable;
 import oins.communication.ArpListener;
 import oins.communication.ArpPacket;
 import oins.communication.TcpListener;
+import oins.core.ConvFrame;
+import oins.tables.ContactTable;
 
 public class SendArpPanel extends GenericPanel {
 
     private static final long serialVersionUID = 85203561313987695L;
     private static final String BUT1 = "Rozmawiaj";
     private static final String BUT2 = "Wyslij ARP ";
-    private static final String LABEL1 = "Status:";
-    private static final String LABEL2 = "Wybór odbiorcy:";
+    private static final String LABEL3 = "Status odebrania:";
+    private static final String LABEL4 = "Wybór odbiorcy:";
+    private static final String LABEL1 = "Status nadania";
+    private static final String LABEL2 = "Wybór nadawcy:";
     private static final String CHB1 = "TCP ";
     private static final String CHB2 = "ICMP";
     private static final Integer BUTXSIZE = new Integer(120);
@@ -38,23 +41,26 @@ public class SendArpPanel extends GenericPanel {
     private JRadioButton radioBut1;
     private JRadioButton radioBut2;
     private ButtonGroup radioGroup;
-    private JPanel p1, p2, p3, p4, p5, p6, p7, p8;
-    private JLabel label1, label2;
-	private Integer[] ipAddress;
-    private static JTextField txtF1, txtF2;
+    private JPanel p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11;
+    private JLabel label1, label2, label3, label4;
+    private Integer[] ipAddress;
+    private static JTextField txtF1, txtF2, txtF3, txtF4;
 
     public SendArpPanel() {
         super();
-        this.setLayout(new GridLayout(4, 1));
+        this.setLayout(new GridLayout(3, 1));
         this.setSize(300, 300);
-        p1 = new JPanel(new GridLayout(2, 1));
-        p2 = new JPanel(new GridLayout(2, 1));
+        p1 = new JPanel(new GridLayout(3, 1));
+        p2 = new JPanel(new GridLayout(4, 1));
         p3 = new JPanel();
         p4 = new JPanel();
         p5 = new JPanel();
         p6 = new JPanel();
         p7 = new JPanel();
         p8 = new JPanel();
+        p9 = new JPanel();
+        p10 = new JPanel();
+        p11 = new JPanel(new BorderLayout());
 
         butDimension = new Dimension(BUTXSIZE, BUTYSIZE);
         but1 = new JButton(BUT1);
@@ -71,25 +77,35 @@ public class SendArpPanel extends GenericPanel {
         label2 = new JLabel(LABEL2);
         label1.setPreferredSize(butDimension);
         label2.setPreferredSize(butDimension);
+        label3 = new JLabel(LABEL3);
+        label4 = new JLabel(LABEL4);
+        label3.setPreferredSize(butDimension);
+        label4.setPreferredSize(butDimension);
 
         txtF1 = new JTextField();
         txtF1.setFocusable(false);
         txtF1.setPreferredSize(butDimension);
-        
 
         txtF2 = new JTextField();
         txtF2.setFocusable(false);
         txtF2.setPreferredSize(butDimension);
-        
-        if(ArpListener.isRecieving()==true && ArpListener.isSending()==false){
-        	txtF1.setText("Odebrano Arp od:" + ArpListener.getCurrIp());
-        	if(ArpListener.getPid()==1){
-        		txtF2.setText("TCP");
-        	}
-        	else if (ArpListener.getPid()==2){
-        		txtF2.setText("ICMP");
-        		
-        	}      	
+
+        txtF3 = new JTextField();
+        txtF3.setFocusable(false);
+        txtF3.setPreferredSize(butDimension);
+
+        txtF4 = new JTextField();
+        txtF4.setFocusable(false);
+        txtF4.setPreferredSize(butDimension);
+
+        if (ArpListener.isRecieving() == true && ArpListener.isSending() == false) {
+            txtF1.setText("Odebrano Arp od:" + ArpListener.getCurrIp());
+            if (ArpListener.getPid() == 1) {
+                txtF2.setText("TCP");
+            } else if (ArpListener.getPid() == 2) {
+                txtF2.setText("ICMP");
+
+            }
         }
         radioBut2 = new JRadioButton(CHB2);
         radioBut2.setActionCommand(CHB2);
@@ -106,34 +122,42 @@ public class SendArpPanel extends GenericPanel {
 
         p5.add(radioBut1);
         p6.add(radioBut2);
-    
+
         p3.add(label1);
         p3.add(txtF1);
 
         p4.add(label2);
         p4.add(txtF2);
 
+        p9.add(label3);
+        p9.add(txtF3);
+
+        p10.add(label4);
+        p10.add(txtF4);
+
         p7.add(but1);
+        p11.add(p7, BorderLayout.SOUTH);
         p8.add(but2);
 
         p1.add(p5);
         p1.add(p6);
+        p1.add(p8);
         p2.add(p3);
         p2.add(p4);
+        p2.add(p9);
+        p2.add(p10);
 
         p1.setBackground(Color.GRAY);
         this.add(p1);
-        this.add(p8);
         this.add(p2);
-        this.add(p7);
+        this.add(p11);
 
-        if(ArpListener.isRecieving()==false){
-        	setIpAddress(ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress()));
+        if (ArpListener.isRecieving() == false) {
+            setIpAddress(ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress()));
+        } else {
+            setIpAddress(ArpListener.getCurrIpInt());
         }
-        else{
-        	setIpAddress(ArpListener.getCurrIpInt());
-        }
-        
+
         but1.addActionListener(this);
         but2.addActionListener(this);
 
@@ -142,53 +166,50 @@ public class SendArpPanel extends GenericPanel {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(BUT1)) {
-        	if(ArpListener.isRecieving()==false){
-        		TcpListener tcp=new TcpListener(ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress()));
-            	tcp.start();
-        	}
-        	else{
-        		TcpListener tcp=new TcpListener(ArpListener.getCurrIpInt());
-            	tcp.start();
-        	}
-        	ArpListener.setRecieving(false);
-			ArpListener.setSending(false);
-        	
+            if (ArpListener.isRecieving() == false) {
+                TcpListener tcp = new TcpListener(ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress()));
+                tcp.start();
+            } else {
+                TcpListener tcp = new TcpListener(ArpListener.getCurrIpInt());
+                tcp.start();
+            }
+            ArpListener.setRecieving(false);
+            ArpListener.setSending(false);
+
             ConvFrame.changeCard();
-        }
-        else if(e.getActionCommand().equals(BUT2)){
-        	try {
-        		//Narazie domyœlnie ustawiam pid=1
-				
-				ArpListener.setSending(true);
-				if(ArpListener.isRecieving()==true && ArpListener.isSending()==true){
-					ArpPacket arpPacket= new ArpPacket(ArpListener.getCurrIpInt(),1);
-					arpPacket.sendArp();
-					but1.setEnabled(true);
-					setTxtF1("Wyslano pakiet Arp");
-					if(arpPacket.getPid()==1){
-						setTxtF2("TCP");
-		        	}
-		        	else if (arpPacket.getPid()==2){
-		        		setTxtF2("ICMP");
-		        		
-		        	}
-				
-				}
-				else {
-					ArpPacket arpPacket= new ArpPacket(getIpAddress(),1);
-					arpPacket.sendArp();
-					setTxtF1("Wysy³anie...");
-				}
-			} catch (NoSuchAlgorithmException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        	
+        } else if (e.getActionCommand().equals(BUT2)) {
+            try {
+                // Narazie domyœlnie ustawiam pid=1
+
+                ArpListener.setSending(true);
+                if (ArpListener.isRecieving() == true && ArpListener.isSending() == true) {
+                    ArpPacket arpPacket = new ArpPacket(ArpListener.getCurrIpInt(), 1);
+                    arpPacket.sendArp();
+                    but1.setEnabled(true);
+                    setTxtF1("Wyslano pakiet Arp");
+                    if (arpPacket.getPid() == 1) {
+                        setTxtF2("TCP");
+                    } else if (arpPacket.getPid() == 2) {
+                        setTxtF2("ICMP");
+
+                    }
+
+                } else {
+                    ArpPacket arpPacket = new ArpPacket(getIpAddress(), 1);
+                    arpPacket.sendArp();
+                    setTxtF1("Wysy³anie...");
+                }
+            } catch (NoSuchAlgorithmException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
         }
     }
+
     public static void setTxtF1(String text) {
         txtF1.setText(text);
     }
@@ -196,6 +217,15 @@ public class SendArpPanel extends GenericPanel {
     public static void setTxtF2(String text) {
         txtF2.setText(text);
     }
+
+    public static void setTxtF3(String text) {
+        txtF3.setText(text);
+    }
+
+    public static void setTxtF4(String text) {
+        txtF4.setText(text);
+    }
+
     public static JTextField getTxtF1() {
         return txtF1;
     }
@@ -204,30 +234,20 @@ public class SendArpPanel extends GenericPanel {
         return txtF2;
     }
 
-    public static void setTxtF1(JTextField txtF1) {
-        SendArpPanel.txtF1 = txtF1;
+    public void setIpAddress(Integer[] ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
-    public static void setTxtF2(JTextField txtF2) {
-        SendArpPanel.txtF2 = txtF2;
+    public Integer[] getIpAddress() {
+        return ipAddress;
     }
 
-	public void setIpAddress(Integer[] ipAddress) {
-		this.ipAddress = ipAddress;
-	}
+    public static JButton getBut1() {
+        return but1;
+    }
 
-	public Integer[] getIpAddress() {
-		return ipAddress;
-	}
-
-	public static JButton getBut1() {
-		return but1;
-	}
-
-	public static JButton getBut2() {
-		return but2;
-	}
-	
-	
+    public static JButton getBut2() {
+        return but2;
+    }
 
 }
