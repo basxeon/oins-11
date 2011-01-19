@@ -79,6 +79,12 @@ public class ContactTable extends JPanel {
     public static void updateRowAvail(Object obj, int row) {
         tableModel.updateRow(obj, row);
     }
+    public static void updateRowNotAvailAll() {
+        for(int i=0;i<ContactPanel.getIpAdressesInt().length;i++){
+        	tableModel.updateRow("Niedostepny", i);	
+        }
+    	
+    }
 
     public static String getContactName() {
         return contactName;

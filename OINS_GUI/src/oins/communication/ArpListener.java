@@ -1,5 +1,6 @@
 package oins.communication;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.TimerTask;
 
@@ -108,6 +109,18 @@ public class ArpListener extends TimerTask {
 									}
 									
 								}
+								else if (getPid()==3){
+									ContactTable.updateRowAvail("Dostepny",ContactTable.searchColumnNumber(temp));
+									ArpPacket arpPacket;
+									try {
+										arpPacket = new ArpPacket(temp, 3);
+										arpPacket.sendArp();
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
+				                    
+									
+								}
 								
 							}
 							
@@ -166,8 +179,17 @@ public class ArpListener extends TimerTask {
 		// ilosc pakietow
 			getPcap().loop(1000000, getJpacketHandler(),"OINS");
 			System.out.println("Koniec");
-			ConversationPanel.getBut2().setEnabled(true);
-			JOptionPane.showMessageDialog(null, "Wyczysc ARP", "Information", JOptionPane.INFORMATION_MESSAGE);
+			try {
+				ArpAvail avail=new ArpAvail(ContactPanel.getIpAdressesInt(),3);
+				avail.sendArp();
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			JOptionPane.showMessageDialog(null, "Wyslano Arp z informacja o Dostepnosci", "Information", JOptionPane.INFORMATION_MESSAGE);
 			pcap.close();
 	}
 
