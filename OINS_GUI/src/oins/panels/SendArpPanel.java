@@ -45,6 +45,7 @@ public class SendArpPanel extends GenericPanel {
     private JLabel label1, label2, label3, label4;
     private Integer[] ipAddress;
     private static JTextField txtF1, txtF2, txtF3, txtF4;
+    private static int currPID;
 
     public SendArpPanel() {
         super();
@@ -183,21 +184,28 @@ public class SendArpPanel extends GenericPanel {
 
                 ArpListener.setSending(true);
                 if (ArpListener.isRecieving() == true && ArpListener.isSending() == true) {
-                    ArpPacket arpPacket = new ArpPacket(ArpListener.getCurrIpInt(), 1);
+                    ArpPacket arpPacket = new ArpPacket(ArpListener.getCurrIpInt(), getCurrPID());
                     arpPacket.sendArp();
                     but1.setEnabled(true);
                     setTxtF1("Wyslano pakiet Arp");
-                    if (arpPacket.getPid() == 1) {
-                        setTxtF3("TCP");
-                    } else if (arpPacket.getPid() == 2) {
-                        setTxtF3("ICMP");
+                    if (getCurrPID() == 1) {
+                        setTxtF4("TCP");
+                    } else if (getCurrPID() == 2) {
+                        setTxtF4("ICMP");
 
                     }
+                    
 
                 } else {
                     ArpPacket arpPacket = new ArpPacket(getIpAddress(), 1);
                     arpPacket.sendArp();
                     setTxtF1("Wysy³anie...");
+                    if (getCurrPID() == 1) {
+                        setTxtF3("TCP");
+                    } else if (getCurrPID() == 2) {
+                        setTxtF3("ICMP");
+
+                    }
                 }
             } catch (NoSuchAlgorithmException e1) {
                 // TODO Auto-generated catch block
@@ -207,6 +215,14 @@ public class SendArpPanel extends GenericPanel {
                 e1.printStackTrace();
             }
 
+        }
+        else if(e.getActionCommand().equals(CHB1)){
+        	setCurrPID(1);
+        	
+        }
+        else if(e.getActionCommand().equals(CHB2)){
+        	setCurrPID(2);
+        	
         }
     }
 
@@ -249,5 +265,13 @@ public class SendArpPanel extends GenericPanel {
     public static JButton getBut2() {
         return but2;
     }
+
+	public static void setCurrPID(int currPID) {
+		SendArpPanel.currPID = currPID;
+	}
+
+	public static int getCurrPID() {
+		return currPID;
+	}
 
 }
