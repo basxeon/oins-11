@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.util.Timer;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -111,8 +112,9 @@ public class InterfacesPanel extends GenericPanel {
                     "Question", JOptionPane.YES_NO_OPTION);
             if (response == JOptionPane.YES_OPTION) {
                 InformationPanel.setTxtF3(InterfacesTable.getChoosenInterface());
+                Timer timer1 = new Timer();
                 ArpListener arplist= new ArpListener();
-                arplist.start();
+                timer1.schedule(arplist, 10, ArpListener.ARP_CLEAN);
                 Application.changeCard();
             } else
                 return;
