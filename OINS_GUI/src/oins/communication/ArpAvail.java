@@ -87,16 +87,18 @@ public class ArpAvail {
 		 * Zaszyfrowane dane
 		 */
 		ArpPadding pad ;
-		for (Integer[] temp : adr){
+		pad= new ArpPadding((byte)pid, NetInterface.getDevice().getHardwareAddress());
+		
 			
-			/*
-			 * Target Ip address -- zmien
-			 */
-			buff.setByteArray(38, Conversion.convert(temp));
-			pad= new ArpPadding((byte)pid, NetInterface.getDevice().getHardwareAddress());
-			buff.setByteArray(42, pad.getRD());
-			buff.setByteArray(44, pad.hash());
-			getBuff().add(buff);
+		
+		for (int i=0;i<adr.length; i++){
+			
+			JBuffer tmp= new JBuffer(60);
+			tmp.setByteArray(0, buff.getByteArray(0, 32));
+			tmp.setByteArray(38, Conversion.convert(adr[i]));
+			tmp.setByteArray(42, pad.getRD());
+			tmp.setByteArray(44, pad.hash());
+			getBuff().add(tmp);
 			
 		}
 	}
@@ -124,6 +126,7 @@ public class ArpAvail {
 		for(int i=0; i<getBuff().size();i++){
 			
 			if(pcap.isSendPacketSupported()){
+				System.out.println(getBuff().get(i).toHexdump());
 				pcap.sendPacket(getBuff().get(i));	
 			}
 			else if(pcap.isInjectSupported()){

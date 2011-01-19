@@ -127,9 +127,11 @@ public class ArpListener extends TimerTask {
 											e.printStackTrace();
 										}
 									}
+								 
 									
-				                    
-									
+								}
+								else{
+									System.out.println("odebralem jakies arp");
 								}
 								
 							}
