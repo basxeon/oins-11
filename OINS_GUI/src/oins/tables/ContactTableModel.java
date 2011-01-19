@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableModel;
 public class ContactTableModel extends DefaultTableModel {
 
     private static final long serialVersionUID = 328501000808821225L;
-    private static final Object[] COLUMNNAMES = { "Nazwa Kontaktu", "Addres IP" };
+    private static final Object[] COLUMNNAMES = { "Nazwa Kontaktu", "Addres IP","Dostêpnosc" };
 
     public ContactTableModel(Object[][] data) {
         super(data, COLUMNNAMES);

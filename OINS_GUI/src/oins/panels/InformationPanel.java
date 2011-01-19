@@ -16,7 +16,8 @@ public class InformationPanel extends JPanel {
     private static final String LABEL1 = "Twój adres MAC";
     private static final String LABEL2 = "Twoje IP";
     private static final String LABEL3 = "Twój interfejs";
-    private static final Dimension BUTTONDIMENSIN = new Dimension(140, 25);
+    private static final Dimension BUTTONDIMENSIN = new Dimension(100, 25);
+    private static final Dimension BUTTONDIMENSIN2 = new Dimension(350, 25);
     private JLabel label1, label2, label3;
     private static JTextField txtF1, txtF2, txtF3;
     private JPanel p1, p2, p3;
@@ -40,15 +41,15 @@ public class InformationPanel extends JPanel {
 
         txtF1 = new JTextField();
         txtF1.setFocusable(false);
-        txtF1.setPreferredSize(BUTTONDIMENSIN);
+        txtF1.setPreferredSize(BUTTONDIMENSIN2);
 
         txtF2 = new JTextField();
         txtF2.setFocusable(false);
-        txtF2.setPreferredSize(BUTTONDIMENSIN);
+        txtF2.setPreferredSize(BUTTONDIMENSIN2);
 
         txtF3 = new JTextField();
         txtF3.setFocusable(false);
-        txtF3.setPreferredSize(BUTTONDIMENSIN);
+        txtF3.setPreferredSize(BUTTONDIMENSIN2);
 
         p1.add(label1);
         p1.add(txtF1);

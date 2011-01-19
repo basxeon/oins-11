@@ -18,7 +18,7 @@ public class ContactTable extends JPanel {
 	 * 
 	 */
     private static final long serialVersionUID = 3350204013232632122L;
-    private JTable table;
+    private static JTable table;
     private ContactTableModel tableModel;
     private static String contactName;
     private static String ipAddress;
@@ -76,6 +76,16 @@ public class ContactTable extends JPanel {
 
     public static String getContactName() {
         return contactName;
+    }
+    
+    public static String searchUserName(Integer[] temp){
+        for(int i = 0; i < table.getRowCount(); i++){
+            if(temp.equals(ContactPanel.getAddressIpAsInteger((String)table.getValueAt(i, 1)))){
+                return (String)table.getValueAt(i, 0);
+            }
+        }
+        return "";
+        
     }
 
     public static void setContactName(String contactName) {
