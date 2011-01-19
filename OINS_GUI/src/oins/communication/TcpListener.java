@@ -69,6 +69,7 @@ public class TcpListener extends Thread {
 						MessDecoding.decode(packet);
 						System.out.println("dekoduje");
 						//setText(MessDecoding.getMs());
+						
 						ConversationPanel.setInTxtArea(MessDecoding.getMs());
 				}
 				}
@@ -85,7 +86,6 @@ public class TcpListener extends Thread {
 		ConversationPanel.setInTxtArea(mess);
 		
 	}
-	
 
 	public void run() {
 		// ilosc pakietow

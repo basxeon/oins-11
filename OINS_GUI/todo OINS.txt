@@ -11,7 +11,7 @@ Strus:
 1. Otwieranie okienka rozmowy +
 2. dodanie jtextow do sendarp +
 3. dodanie buttona do conversation +
-81 pytanie arplis 
+81 pytanie arplis +
 4. Dlugosc wiadomosci
 
 Dodatkowo:

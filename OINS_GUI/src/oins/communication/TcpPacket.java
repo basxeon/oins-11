@@ -23,10 +23,12 @@ public class TcpPacket {
 	
 	public void sendPacket(Integer[] ipSender,String mess){
 		
+		StringBuilder str= new StringBuilder();
+		str.append(mess);
+		str.append("**");
 		
 		setSendip(ipSender);
 		panel.setTxtF1("Wysy³anie...");
-		System.out.println("Jestem tu teraz");
 		StringBuilder errbuf = new StringBuilder();
 		/**
 		 * we open PCAP
@@ -94,7 +96,6 @@ public class TcpPacket {
 							}
 					}
 				}}catch(Exception e){
-				   System.out.println("Wyjebalo sie 2"); 
 				}
 			}
 		};
@@ -107,7 +108,7 @@ public class TcpPacket {
 				 */
 			}
 		};
-		Message m=new Message(mess);
+		Message m=new Message(str.toString());
 		setMessage(m);
 		setSendip(getPanel().getIpSender());
 		
