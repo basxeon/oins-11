@@ -30,6 +30,12 @@ public class ArpListener extends TimerTask {
 	private static int pid;
 	private static boolean recieving; 
 	private static boolean sending; 
+	private static boolean send_avail;
+	
+
+
+
+
 	private static String currIp;
 	private static Integer[] currIpInt;
 	public ArpListener(){
@@ -110,14 +116,18 @@ public class ArpListener extends TimerTask {
 									
 								}
 								else if (getPid()==3){
+									System.out.println("Odebralem dostepnosc");
 									ContactTable.updateRowAvail("Dostepny",ContactTable.searchColumnNumber(temp));
-									ArpPacket arpPacket;
-									try {
-										arpPacket = new ArpPacket(temp, 3);
-										arpPacket.sendArp();
-									} catch (IOException e) {
-										e.printStackTrace();
+									if(!isSend_avail()){
+										ArpPacket arpPacket;
+										try {
+											arpPacket = new ArpPacket(temp, 3);
+											arpPacket.sendArp();
+										} catch (IOException e) {
+											e.printStackTrace();
+										}
 									}
+									
 				                    
 									
 								}
@@ -128,7 +138,7 @@ public class ArpListener extends TimerTask {
 						//opcja : Arp do kogos z listy
 							for (Integer[] temp : ContactPanel.getIpAdressesInt()){
 								if(Conversion.equal(arp.tpa(), Conversion.convert(temp)) &&
-										!Conversion.equal(Conversion.convert(NetInterface.getCurrIp()),Conversion.convert(temp))){
+										!(Conversion.equal(Conversion.convert(NetInterface.getCurrIp()),Conversion.convert(temp)))){
 									//sprawdzamy czy  jest on wysylany od kogos z listy
 									for (Integer[] temp2 : ContactPanel.getIpAdressesInt()){
 										if(Conversion.equal(arp.spa(), Conversion.convert(temp2))){
@@ -136,18 +146,21 @@ public class ArpListener extends TimerTask {
 											ArpPacketDecoding dec = new ArpPacketDecoding(packet);
 											int pidd =dec.checkPID();
 											String protSend;
+											String ipSend=Conversion.toString(Conversion.toInt(arp.spa()));
+											String ipRec=Conversion.toString(Conversion.toInt(arp.tpa()));
 											if(pidd==1){
 												protSend="TCP";
+												OtherConvPanel.addRow(ipSend, ipRec, protSend);
 											}
 											else if(pidd==2){
 												protSend="ICMP";
+												OtherConvPanel.addRow(ipSend, ipRec, protSend);
 											}
 											else{
 												protSend="Nieokreslony";
 											}
-											String ipSend=Conversion.toString(Conversion.toInt(arp.spa()));
-											String ipRec=Conversion.toString(Conversion.toInt(arp.tpa()));
-											OtherConvPanel.addRow(ipSend, ipRec, protSend);
+											
+											
 										}
 									}
 									
@@ -292,7 +305,16 @@ public class ArpListener extends TimerTask {
 
 
 
+	public static boolean isSend_avail() {
+		return send_avail;
+	}
 
+
+
+
+	public static void setSend_avail(boolean sendAvail) {
+		send_avail = sendAvail;
+	}
 
 
 	
