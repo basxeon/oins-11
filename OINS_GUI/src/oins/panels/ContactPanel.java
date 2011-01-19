@@ -92,7 +92,7 @@ public class ContactPanel extends GenericPanel {
             int response = JOptionPane.showConfirmDialog(this, "Wybra³eœ u¿ytkownika: " + ContactTable.getContactName() + ". \n Czy chcesz kontynuowaæ?",
                     "Question", JOptionPane.YES_NO_OPTION);
             if (response == JOptionPane.YES_OPTION) {
-                
+                but1.setEnabled(false);
                 ConvFrame.create();
             } else
                 return;
@@ -118,5 +118,6 @@ public class ContactPanel extends GenericPanel {
 	private void setIpAdressesInt(Integer[][] ipAdressesInt) {
 		ContactPanel.ipAdressesInt = ipAdressesInt;
 	}
+	
 
 }
