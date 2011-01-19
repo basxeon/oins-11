@@ -82,10 +82,6 @@ public class TcpListener extends Thread {
 		setJpacketHandler(listeningHandler);
 		
 	}
-	private  void setText(String mess){
-		ConversationPanel.setInTxtArea(mess);
-		
-	}
 
 	public void run() {
 		// ilosc pakietow
