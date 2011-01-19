@@ -4,6 +4,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import oins.core.ConvFrame;
+import oins.panels.ContactPanel;
 
 public class ConvFrameAdapter extends WindowAdapter {
 
@@ -39,5 +40,6 @@ public class ConvFrameAdapter extends WindowAdapter {
     public void windowClosing(WindowEvent we) {
         // TODO operacje zwiazane z zamykaniem okna
         we.getWindow().dispose();
+        ContactPanel.getBut1().setEnabled(true);
     }
 }
