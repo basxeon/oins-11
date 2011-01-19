@@ -26,10 +26,10 @@ public class SendArpPanel extends GenericPanel {
     private static final long serialVersionUID = 85203561313987695L;
     private static final String BUT1 = "Rozmawiaj";
     private static final String BUT2 = "Wyslij ARP ";
-    private static final String LABEL3 = "Status odebrania:";
-    private static final String LABEL4 = "Wybór odbiorcy:";
+    private static final String LABEL2 = "Status odebrania:";
+    private static final String LABEL3 = "Wybór Rozmowcy:";
     private static final String LABEL1 = "Status nadania";
-    private static final String LABEL2 = "Wybór nadawcy:";
+
     private static final String CHB1 = "TCP ";
     private static final String CHB2 = "ICMP";
     private static final Integer BUTXSIZE = new Integer(120);
@@ -42,9 +42,9 @@ public class SendArpPanel extends GenericPanel {
     private JRadioButton radioBut2;
     private ButtonGroup radioGroup;
     private JPanel p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11;
-    private JLabel label1, label2, label3, label4;
+    private JLabel label1, label2, label3;
     private Integer[] ipAddress;
-    private static JTextField txtF1, txtF2, txtF3, txtF4;
+    private static JTextField txtF1, txtF2, txtF3;
     private static int currPID;
 
     public SendArpPanel() {
@@ -79,9 +79,9 @@ public class SendArpPanel extends GenericPanel {
         label1.setPreferredSize(butDimension);
         label2.setPreferredSize(butDimension);
         label3 = new JLabel(LABEL3);
-        label4 = new JLabel(LABEL4);
+ 
         label3.setPreferredSize(butDimension);
-        label4.setPreferredSize(butDimension);
+  
 
         txtF1 = new JTextField();
         txtF1.setFocusable(false);
@@ -95,16 +95,13 @@ public class SendArpPanel extends GenericPanel {
         txtF3.setFocusable(false);
         txtF3.setPreferredSize(butDimension);
 
-        txtF4 = new JTextField();
-        txtF4.setFocusable(false);
-        txtF4.setPreferredSize(butDimension);
 
         if (ArpListener.isRecieving() == true && ArpListener.isSending() == false) {
-            txtF2.setText("Odebrano Arp od:" + ArpListener.getCurrIp());
+        	SendArpPanel.setTxtF2("Odebrano pakiet Arp");
             if (ArpListener.getPid() == 1) {
-                txtF3.setText("TCP");
+                SendArpPanel.setTxtF3("TCP");
             } else if (ArpListener.getPid() == 2) {
-                txtF3.setText("ICMP");
+            	SendArpPanel.setTxtF3("ICMP");
 
             }
         }
@@ -133,8 +130,6 @@ public class SendArpPanel extends GenericPanel {
         p9.add(label3);
         p9.add(txtF3);
 
-        p10.add(label4);
-        p10.add(txtF4);
 
         p7.add(but1);
         p11.add(p7, BorderLayout.SOUTH);
@@ -188,24 +183,13 @@ public class SendArpPanel extends GenericPanel {
                     arpPacket.sendArp();
                     but1.setEnabled(true);
                     setTxtF1("Wyslano pakiet Arp");
-                    if (getCurrPID() == 1) {
-                        setTxtF4("TCP");
-                    } else if (getCurrPID() == 2) {
-                        setTxtF4("ICMP");
-
-                    }
-                    
+                   
 
                 } else {
                     ArpPacket arpPacket = new ArpPacket(getIpAddress(), 1);
                     arpPacket.sendArp();
                     setTxtF1("Wysy³anie...");
-                    if (getCurrPID() == 1) {
-                        setTxtF3("TCP");
-                    } else if (getCurrPID() == 2) {
-                        setTxtF3("ICMP");
-
-                    }
+                    
                 }
             } catch (NoSuchAlgorithmException e1) {
                 // TODO Auto-generated catch block
@@ -238,9 +222,7 @@ public class SendArpPanel extends GenericPanel {
         txtF3.setText(text);
     }
 
-    public static void setTxtF4(String text) {
-        txtF4.setText(text);
-    }
+
 
     public static JTextField getTxtF1() {
         return txtF1;
