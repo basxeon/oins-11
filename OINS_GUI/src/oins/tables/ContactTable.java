@@ -20,7 +20,7 @@ public class ContactTable extends JPanel {
 	 */
     private static final long serialVersionUID = 3350204013232632122L;
     private static JTable table;
-    private ContactTableModel tableModel;
+    private static ContactTableModel tableModel;
     private static String contactName;
     private static String ipAddress;
 
@@ -76,6 +76,10 @@ public class ContactTable extends JPanel {
         tableModel.setNewData(data);
     }
 
+    public static void updateRowAvail(Object obj, int row) {
+        tableModel.updateRow(obj, row);
+    }
+
     public static String getContactName() {
         return contactName;
     }
@@ -102,7 +106,7 @@ public class ContactTable extends JPanel {
         return "";
 
     }
-    
+
     public static int searchColumnNumber(Integer[] temp) {
         for (int i = 0; i < table.getRowCount(); i++) {
             String ip = table.getValueAt(i, 1).toString();
