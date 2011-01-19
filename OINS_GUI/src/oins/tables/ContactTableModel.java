@@ -26,4 +26,7 @@ public class ContactTableModel extends DefaultTableModel {
         setDataVector(convertToVector(data), convertToVector(COLUMNNAMES));
     }
 
+    public void updateRow(Object value,int row){
+        setValueAt(value, row, 2);
+    }
 }
