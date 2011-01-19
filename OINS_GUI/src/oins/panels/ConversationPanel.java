@@ -36,7 +36,7 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     private static JButton but1, but2;
     private Dimension butDimension;
 
-    private JPanel p1, p2, p3, p4, p5, p6, p7;
+    private JPanel p1, p2, p3, p4, p5, p6;
     private JLabel label1;
     private static JTextField txtF1, txtF2;
     private static JTextArea txtArea;
@@ -50,11 +50,10 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         this.setSize(300, 300);
         p1 = new JPanel();
         p2 = new JPanel(new BorderLayout());
-        p3 = new JPanel(new GridLayout(1, 3));
+        p3 = new JPanel(new GridLayout(1, 2));
         p4 = new JPanel();
         p5 = new JPanel();
         p6 = new JPanel();
-        p7 = new JPanel();
 
         buildContent = new StringBuilder();
 
@@ -95,9 +94,7 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         p6.add(but1);
         p5.add(label1);
         p5.add(txtF1);
-        p7.add(but2);
 
-        p3.add(p7);
         p3.add(p5);
         p3.add(p6);
 
@@ -165,9 +162,8 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
             ConversationPanel.txtArea.setCaretPosition(txtArea.getDocument().getLength());
             txtF2.selectAll();
             buildContent = new StringBuilder("");
-        }
-        else{
-        buildContent.append(mess);
+        } else {
+            buildContent.append(mess);
         }
     }
 
