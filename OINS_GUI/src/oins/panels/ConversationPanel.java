@@ -166,8 +166,9 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
             txtF2.selectAll();
             buildContent = new StringBuilder("");
         }
+        else{
         buildContent.append(mess);
-
+        }
     }
 
     public static void setInTxtArea() {
