@@ -25,7 +25,7 @@ public class TcpPacket {
 		
 		StringBuilder str= new StringBuilder();
 		str.append(mess);
-		str.append("**");
+		str.append("*");
 		
 		setSendip(ipSender);
 		panel.setTxtF1("Wysy³anie...");

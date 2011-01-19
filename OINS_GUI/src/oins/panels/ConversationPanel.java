@@ -55,7 +55,7 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         p5 = new JPanel();
         p6 = new JPanel();
         p7 = new JPanel();
-        
+
         buildContent = new StringBuilder();
 
         txtArea = new JTextArea();
@@ -148,30 +148,26 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     }
 
     public static void setInTxtArea(String mess) {
-        
+
         String DATE_FORMAT = "HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+
         System.out.println("index " + mess);
-        String contain = mess;
-        if(mess.contains("**")){
-            int i = mess.indexOf("**");
-            contain = mess.substring(0,i);
-           buildContent.append(mess.substring(0, i));
-           if (!txtArea.getText().equals("")) {
-               ConversationPanel.txtArea.append("\n\n");
-           }
-           ConversationPanel.txtArea.append(userName + "     ");
-           ConversationPanel.txtArea.append((sdf.format(new java.util.Date()) + "\n"));
-           ConversationPanel.txtArea.append(buildContent.toString());
-           ConversationPanel.txtArea.setCaretPosition(txtArea.getDocument().getLength());
-           txtF2.selectAll();
-           buildContent = new StringBuilder("");
+        if (mess.contains("*")) {
+            int i = mess.indexOf("*");
+            buildContent.append(mess.substring(0, i));
+            if (!txtArea.getText().equals("")) {
+                ConversationPanel.txtArea.append("\n\n");
+            }
+            ConversationPanel.txtArea.append(userName + "     ");
+            ConversationPanel.txtArea.append((sdf.format(new java.util.Date()) + "\n"));
+            ConversationPanel.txtArea.append(buildContent.toString());
+            ConversationPanel.txtArea.setCaretPosition(txtArea.getDocument().getLength());
+            txtF2.selectAll();
+            buildContent = new StringBuilder("");
         }
-        else{
-            buildContent.append(contain);
-        }
-        
-        
+        buildContent.append(mess);
+
     }
 
     public static void setInTxtArea() {

@@ -102,6 +102,17 @@ public class ContactTable extends JPanel {
         return "";
 
     }
+    
+    public static int searchColumnNumber(Integer[] temp) {
+        for (int i = 0; i < table.getRowCount(); i++) {
+            String ip = table.getValueAt(i, 1).toString();
+            if (equal(temp, ContactPanel.getAddressIpAsInteger(ip))) {
+                return i;
+            }
+        }
+        return 0;
+
+    }
 
     public static void setContactName(String contactName) {
         ContactTable.contactName = contactName;
