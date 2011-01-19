@@ -5,6 +5,6 @@
 contacts=Robert Mateusz Rozik Zgier
 
 #ip_address
-ip_address=10/1/0/40 10/10/1/50 10/1/0/185 10/1/0/20
+ip_address=10/1/0/40 10/1/0/50 10/1/0/185 10/1/0/20
 
 interfaces=Realtek Wifi olaasd
