@@ -99,11 +99,11 @@ public class SendArpPanel extends GenericPanel {
         txtF4.setPreferredSize(butDimension);
 
         if (ArpListener.isRecieving() == true && ArpListener.isSending() == false) {
-            txtF1.setText("Odebrano Arp od:" + ArpListener.getCurrIp());
+            txtF2.setText("Odebrano Arp od:" + ArpListener.getCurrIp());
             if (ArpListener.getPid() == 1) {
-                txtF2.setText("TCP");
+                txtF3.setText("TCP");
             } else if (ArpListener.getPid() == 2) {
-                txtF2.setText("ICMP");
+                txtF3.setText("ICMP");
 
             }
         }
@@ -188,9 +188,9 @@ public class SendArpPanel extends GenericPanel {
                     but1.setEnabled(true);
                     setTxtF1("Wyslano pakiet Arp");
                     if (arpPacket.getPid() == 1) {
-                        setTxtF2("TCP");
+                        setTxtF3("TCP");
                     } else if (arpPacket.getPid() == 2) {
-                        setTxtF2("ICMP");
+                        setTxtF3("ICMP");
 
                     }
 
