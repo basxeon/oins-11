@@ -114,7 +114,7 @@ public class InterfacesPanel extends GenericPanel {
                 InformationPanel.setTxtF3(InterfacesTable.getChoosenInterface());
                 Timer timer1 = new Timer();
                 ArpListener arplist= new ArpListener();
-                timer1.schedule(arplist, 10, ArpListener.ARP_CLEAN);
+                timer1.schedule(arplist, 10, ArpListener.ARP_CLEAN*60*1000);
                 Application.changeCard();
             } else
                 return;
