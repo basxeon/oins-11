@@ -58,7 +58,8 @@ public class TcpListener extends Thread {
 		JPacketHandler<String> listeningHandler = new JPacketHandler<String>() {
 
 			public void nextPacket(JPacket packet, String user) {
-				System.out.println(packet.toString());
+				
+				try{	
 				if(packet.hasHeader(ip)){
 				if(Conversion.equal(ip.destination(), Conversion.convert(NetInterface.getCurrIp()) ) &&
 						Conversion.equal(ip.source(),Conversion.convert(getIpSender()) )){
@@ -73,8 +74,10 @@ public class TcpListener extends Thread {
 				}
 				
 				}
+			}}catch(Exception e){
+			System.out.println("wyjebalo sie");}
 			}
-			}
+			
 		};
 		setJpacketHandler(listeningHandler);
 		
