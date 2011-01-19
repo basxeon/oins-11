@@ -130,7 +130,8 @@ public class ArpAvail {
 				pcap.inject(getBuff().get(i),0,getBuff().size());
 			}
 		}	
-		
+		System.out.println("Wysylam do wszystkich");
+		ArpListener.setSend_avail(true);
 		pcap.close();
 		
 	}
