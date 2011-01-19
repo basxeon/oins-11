@@ -27,6 +27,8 @@ public class ContactPanel extends GenericPanel {
 
     private JPanel p1;
     private ContactTable contactTable;
+    
+    private static Integer[][] ipAdressesInt;
 
     public ContactPanel() {
         super();
@@ -69,11 +71,14 @@ public class ContactPanel extends GenericPanel {
         }
         String[] contacTable = contacts.split(" ");
         String[] ipAddressTable = ipAddress.split(" ");
+        Integer[][] ipadrInt=new Integer[contacTable.length][4];
         Object[][] tableObj = new Object[contacTable.length][2];
         for (int i = 0; i < contacTable.length; i++) {
             tableObj[i][0] = contacTable[i];
             tableObj[i][1] = ipAddressTable[i];
+            ipadrInt[i]=getAddressIpAsInteger(ipAddressTable[i]);
         }
+        setIpAdressesInt(ipadrInt);
         return tableObj;
     }
 
@@ -87,7 +92,7 @@ public class ContactPanel extends GenericPanel {
             int response = JOptionPane.showConfirmDialog(this, "Wybra³eœ u¿ytkownika: " + ContactTable.getContactName() + ". \n Czy chcesz kontynuowaæ?",
                     "Question", JOptionPane.YES_NO_OPTION);
             if (response == JOptionPane.YES_OPTION) {
-                ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress());
+                
                 ConvFrame.create();
             } else
                 return;
@@ -102,10 +107,16 @@ public class ContactPanel extends GenericPanel {
         for (int i = 0; i < table.length; i++) {
             tableInt[i] = Integer.parseInt(table[i]);
         }
-        for (Integer temp : tableInt) {
-            System.out.println(" " + temp);
-        }
+        
         return tableInt;
     }
+
+	public static Integer[][] getIpAdressesInt() {
+		return ipAdressesInt;
+	}
+
+	private void setIpAdressesInt(Integer[][] ipAdressesInt) {
+		ContactPanel.ipAdressesInt = ipAdressesInt;
+	}
 
 }

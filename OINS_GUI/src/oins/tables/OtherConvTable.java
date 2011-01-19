@@ -20,8 +20,6 @@ public class OtherConvTable extends JPanel {
     private static final long serialVersionUID = 3350204013232632122L;
     private JTable table;
     private OtherConvTableModel tableModel;
-    private static String title;
-    private static String status;
 
     public OtherConvTable() {
         super();
@@ -60,8 +58,6 @@ public class OtherConvTable extends JPanel {
                 int viewRow = table.getSelectedRow();
                 if (viewRow >= 0) {
                     ContactPanel.getBut1().setEnabled(true);
-                    OtherConvTable.setTitle(table.getValueAt(viewRow, 0).toString());
-                    OtherConvTable.setStatus(table.getValueAt(viewRow, 1).toString());
                 }
             }
         });
@@ -70,24 +66,15 @@ public class OtherConvTable extends JPanel {
         add(scrollPane);
     }
 
+    public int getRowCount(){
+    	return tableModel.getRowCount();
+    }
     public void insertNewDate(Object[][] data) {
         tableModel.setNewData(data);
+        
     }
-
-    public static String getTitle() {
-        return title;
-    }
-
-    public static void setTitle(String title) {
-        OtherConvTable.title = title;
-    }
-
-    public static String getStatus() {
-        return status;
-    }
-
-    public static void setStatus(String status) {
-        OtherConvTable.status = status;
+    public void addRow(Object[] data){
+    	tableModel.addRow(data);
     }
 
 }

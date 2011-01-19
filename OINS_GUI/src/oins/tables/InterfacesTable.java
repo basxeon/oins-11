@@ -21,6 +21,7 @@ public class InterfacesTable extends JPanel {
     private JTable table;
     private InterfacesTableModel tableModel;
     private static String choosenInterface;
+    private static int choosenInterfaceId;
 
     public InterfacesTable() {
         super();
@@ -60,6 +61,8 @@ public class InterfacesTable extends JPanel {
                 if (viewRow >= 0) {
                     InterfacesPanel.getBut1().setEnabled(true);
                     InterfacesTable.setChoosenInterface(table.getValueAt(viewRow, 1).toString());
+                    InterfacesTable.setChoosenInterfaceId(viewRow);
+            
                 }
             }
         });
@@ -79,5 +82,13 @@ public class InterfacesTable extends JPanel {
     public static void setChoosenInterface(String choosenInterface) {
         InterfacesTable.choosenInterface = choosenInterface;
     }
+
+	public static void setChoosenInterfaceId(int choosenInterfaceId) {
+		InterfacesTable.choosenInterfaceId = choosenInterfaceId;
+	}
+
+	public static int getChoosenInterfaceId() {
+		return choosenInterfaceId;
+	}
 
 }

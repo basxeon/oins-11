@@ -6,15 +6,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import oins.communication.ArpListener;
+import oins.communication.NetInterface;
 import oins.core.Application;
 import oins.tables.InterfacesTable;
 
@@ -81,16 +80,10 @@ public class InterfacesPanel extends GenericPanel {
     }
 
     public Object[][] loadConfiguration() {
-        String interfaces = new String();
-        try {
-            Properties configFile = new Properties();
-            configFile.load(new FileInputStream("configuration.txt"));
-            interfaces = configFile.getProperty("interfaces");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "BRAK PLIKU KONFIGURACYJNEGO!", "Information", JOptionPane.INFORMATION_MESSAGE);
-        }
-        String[] table = interfaces.split(" ");
-        Object[][] tableObj = new Object[table.length][2];
+        
+		NetInterface interfaces = new NetInterface();
+    	String[] table =interfaces.getInterfaces();
+    	Object[][] tableObj = new Object[table.length][2];
         for (int i = 0; i < table.length; i++) {
             tableObj[i][0] = i;
             tableObj[i][1] = table[i];
@@ -109,10 +102,17 @@ public class InterfacesPanel extends GenericPanel {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(BUT1)) {
+        	
+        	InformationPanel.setTxtF2(NetInterface.getIpAddress(InterfacesTable.getChoosenInterfaceId()));
+        	InformationPanel.setTxtF1(NetInterface.getMAC(InterfacesTable.getChoosenInterfaceId()));
+        	NetInterface.setDeviceID(InterfacesTable.getChoosenInterfaceId());
+        	
             int response = JOptionPane.showConfirmDialog(this, "Wybra³eœ interfejs: " + InterfacesTable.getChoosenInterface() + ". \n Czy chcesz kontynuowaæ?",
                     "Question", JOptionPane.YES_NO_OPTION);
             if (response == JOptionPane.YES_OPTION) {
                 InformationPanel.setTxtF3(InterfacesTable.getChoosenInterface());
+                ArpListener arplist= new ArpListener();
+                arplist.start();
                 Application.changeCard();
             } else
                 return;
