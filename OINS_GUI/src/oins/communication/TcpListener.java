@@ -68,11 +68,10 @@ public class TcpListener extends Thread {
 					if(packet.getByte(54)!=0){
 						MessDecoding.decode(packet);
 						System.out.println("dekoduje");
-						setText(MessDecoding.getMs());				
+						//setText(MessDecoding.getMs());
+						ConversationPanel.setInTxtArea(MessDecoding.getMs());
 				}
-				
 				}
-				
 				}
 			}}catch(Exception e){
 			System.out.println("wyjebalo sie");}

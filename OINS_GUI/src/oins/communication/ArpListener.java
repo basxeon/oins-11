@@ -77,9 +77,9 @@ public class ArpListener extends Thread {
 								if(getPid()==1 || getPid()==2){
 									setRecieving(true);
 									if(isSending()==false){
+										
 										setCurrIp(Conversion.toString(temp));
 										setCurrIpInt(temp);
-										
 										ConvFrame.create();
 										
 									}
@@ -88,6 +88,7 @@ public class ArpListener extends Thread {
 										setCurrIpInt(temp);
 										System.out.println("Odebralem");
 										SendArpPanel.setTxtF1("Wys³ano pakiet Arp");
+										SendArpPanel.getBut1().setEnabled(true);
 										if(getPid()==1){
 											SendArpPanel.setTxtF2("TCP");
 										}
