@@ -86,7 +86,15 @@ public class ArpListener extends TimerTask {
                                         if (response == JOptionPane.YES_OPTION) {
                                             setCurrIp(Conversion.toString(temp));
                                             setCurrIpInt(temp);
+                                            
                                             ConvFrame.create();
+                                           /* SendArpPanel.setTxtF2("Odebrano pakiet Arp");
+                                            if (getPid() == 1) {
+                                                SendArpPanel.setTxtF3("TCP");
+                                            } else if (getPid() == 2) {
+                                            	SendArpPanel.setTxtF3("ICMP");
+
+                                            }*/
                                         } else
                                             return;
 
@@ -94,8 +102,8 @@ public class ArpListener extends TimerTask {
 									else{
 										setCurrIp(Conversion.toString(temp));
 										setCurrIpInt(temp);
-										System.out.println("Odebralem");
-										SendArpPanel.setTxtF2("Wys³ano pakiet Arp");
+										SendArpPanel.setTxtF2("Odebrano pakiet Arp");
+										SendArpPanel.setTxtF1("Wys³ano pakiet Arp");
 										SendArpPanel.getBut1().setEnabled(true);
 										if(getPid()==1){
 											SendArpPanel.setTxtF4("TCP");
