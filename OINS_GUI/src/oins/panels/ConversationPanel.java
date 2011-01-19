@@ -118,7 +118,7 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
 
             TcpPacket packet = new TcpPacket(this);
 
-            ConversationPanel.setInTxtArea(txtF2.getText());
+            ConversationPanel.setInTxtArea();
             packet.sendPacket(getIpSender(), txtF2.getText());
 
         }
@@ -150,8 +150,22 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         if(!txtArea.getText().equals("")){
             ConversationPanel.txtArea.append("\n\n"); 
         }
+        ConversationPanel.txtArea.append(userName + "     ");
         ConversationPanel.txtArea.append((sdf.format(new java.util.Date()) + "\n"));
         ConversationPanel.txtArea.append(mess);
+        ConversationPanel.txtArea.setCaretPosition(txtArea.getDocument().getLength());
+        txtF2.selectAll();
+    }
+    
+    public static void setInTxtArea() {
+        String DATE_FORMAT = "HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        if(!txtArea.getText().equals("")){
+            ConversationPanel.txtArea.append("\n\n"); 
+        }
+        ConversationPanel.txtArea.append("Ja     ");
+        ConversationPanel.txtArea.append((sdf.format(new java.util.Date()) + "\n"));
+        ConversationPanel.txtArea.append(txtF2.getText());
         ConversationPanel.txtArea.setCaretPosition(txtArea.getDocument().getLength());
         txtF2.selectAll();
     }
@@ -162,7 +176,7 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         case KeyEvent.VK_ENTER:
             TcpPacket packet = new TcpPacket(this);
             packet.sendPacket(getIpSender(), txtF2.getText());
-            ConversationPanel.setInTxtArea(txtF2.getText());
+            ConversationPanel.setInTxtArea();
 
             break;
         }

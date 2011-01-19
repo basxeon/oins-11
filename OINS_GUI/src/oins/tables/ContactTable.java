@@ -78,9 +78,23 @@ public class ContactTable extends JPanel {
         return contactName;
     }
     
+    public static boolean equal(Integer[] temp, Integer[] temp2){
+        boolean compare = false;
+        for(int i = 0; i < temp.length;i++){
+            if(temp[i]==temp2[i]){
+                compare =true;
+            }
+            else{
+                compare = false;
+            }
+        }
+        return compare;
+    }
+    
     public static String searchUserName(Integer[] temp){
         for(int i = 0; i < table.getRowCount(); i++){
-            if(temp.equals(ContactPanel.getAddressIpAsInteger((String)table.getValueAt(i, 1)))){
+            String ip = table.getValueAt(i, 1).toString();
+            if(equal(temp,ContactPanel.getAddressIpAsInteger(ip))){
                 return (String)table.getValueAt(i, 0);
             }
         }
