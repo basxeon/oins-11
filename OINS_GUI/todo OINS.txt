@@ -1,0 +1,16 @@
+
+
+
+Ja:
+1. Zrobic timera -  wyczysc ARP
+2. Drugi protokó³
+4.dodanie tekstow do jtextow
+5. 
+
+Strus:
+1. Otwieranie okienka rozmowy,
+2. dodanie jtextow do sendarp
+3. dodanie buttona do conversation
+81 pytanie arplis
+4. Dlugosc wiadomosci
+

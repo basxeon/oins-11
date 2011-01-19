@@ -60,7 +60,7 @@ public class SendArpPanel extends GenericPanel {
         but1 = new JButton(BUT1);
         but1.setActionCommand(BUT1);
         but1.setPreferredSize(butDimension);
-        // but1.setEnabled(false);
+        but1.setEnabled(false);
 
         butDimension = new Dimension(BUTXSIZE, BUTYSIZE);
         but2 = new JButton(BUT2);
@@ -163,6 +163,7 @@ public class SendArpPanel extends GenericPanel {
 				if(ArpListener.isRecieving()==true && ArpListener.isSending()==true){
 					ArpPacket arpPacket= new ArpPacket(ArpListener.getCurrIpInt(),1);
 					arpPacket.sendArp();
+					but1.setEnabled(true);
 					setTxtF1("Wyslano pakiet Arp");
 					if(arpPacket.getPid()==1){
 						setTxtF2("TCP");
@@ -218,5 +219,15 @@ public class SendArpPanel extends GenericPanel {
 	public Integer[] getIpAddress() {
 		return ipAddress;
 	}
+
+	public static JButton getBut1() {
+		return but1;
+	}
+
+	public static JButton getBut2() {
+		return but2;
+	}
+	
+	
 
 }
