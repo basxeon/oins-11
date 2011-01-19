@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -13,12 +15,16 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import oins.core.ConvFrame;
+import oins.tables.ContactTable;
+import oins.communication.ArpListener;
+import oins.communication.ArpPacket;
+import oins.communication.TcpListener;
 
 public class SendArpPanel extends GenericPanel {
 
     private static final long serialVersionUID = 85203561313987695L;
     private static final String BUT1 = "Rozmawiaj";
-    private static final String BUT2 = "Wyslij ARP";
+    private static final String BUT2 = "Wyslij ARP ";
     private static final String LABEL1 = "Status:";
     private static final String LABEL2 = "Wybór odbiorcy:";
     private static final String CHB1 = "TCP ";
@@ -34,6 +40,7 @@ public class SendArpPanel extends GenericPanel {
     private ButtonGroup radioGroup;
     private JPanel p1, p2, p3, p4, p5, p6, p7, p8;
     private JLabel label1, label2;
+	private Integer[] ipAddress;
     private static JTextField txtF1, txtF2;
 
     public SendArpPanel() {
@@ -68,11 +75,22 @@ public class SendArpPanel extends GenericPanel {
         txtF1 = new JTextField();
         txtF1.setFocusable(false);
         txtF1.setPreferredSize(butDimension);
+        
 
         txtF2 = new JTextField();
         txtF2.setFocusable(false);
         txtF2.setPreferredSize(butDimension);
-
+        
+        if(ArpListener.isRecieving()==true && ArpListener.isSending()==false){
+        	txtF1.setText("Odebrano Arp od:" + ArpListener.getCurrIp());
+        	if(ArpListener.getPid()==1){
+        		txtF2.setText("TCP");
+        	}
+        	else if (ArpListener.getPid()==2){
+        		txtF2.setText("ICMP");
+        		
+        	}      	
+        }
         radioBut2 = new JRadioButton(CHB2);
         radioBut2.setActionCommand(CHB2);
         radioBut2.addActionListener(this);
@@ -88,7 +106,7 @@ public class SendArpPanel extends GenericPanel {
 
         p5.add(radioBut1);
         p6.add(radioBut2);
-
+    
         p3.add(label1);
         p3.add(txtF1);
 
@@ -109,17 +127,74 @@ public class SendArpPanel extends GenericPanel {
         this.add(p2);
         this.add(p7);
 
+        if(ArpListener.isRecieving()==false){
+        	setIpAddress(ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress()));
+        }
+        else{
+        	setIpAddress(ArpListener.getCurrIpInt());
+        }
+        
         but1.addActionListener(this);
+        but2.addActionListener(this);
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(BUT1)) {
+        	if(ArpListener.isRecieving()==false){
+        		TcpListener tcp=new TcpListener(ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress()));
+            	tcp.start();
+        	}
+        	else{
+        		TcpListener tcp=new TcpListener(ArpListener.getCurrIpInt());
+            	tcp.start();
+        	}
+        	ArpListener.setRecieving(false);
+			ArpListener.setSending(false);
+        	
             ConvFrame.changeCard();
         }
+        else if(e.getActionCommand().equals(BUT2)){
+        	try {
+        		//Narazie domyœlnie ustawiam pid=1
+				
+				ArpListener.setSending(true);
+				if(ArpListener.isRecieving()==true && ArpListener.isSending()==true){
+					ArpPacket arpPacket= new ArpPacket(ArpListener.getCurrIpInt(),1);
+					arpPacket.sendArp();
+					setTxtF1("Wyslano pakiet Arp");
+					if(arpPacket.getPid()==1){
+						setTxtF2("TCP");
+		        	}
+		        	else if (arpPacket.getPid()==2){
+		        		setTxtF2("ICMP");
+		        		
+		        	}
+				
+				}
+				else {
+					ArpPacket arpPacket= new ArpPacket(getIpAddress(),1);
+					arpPacket.sendArp();
+					setTxtF1("Wysy³anie...");
+				}
+			} catch (NoSuchAlgorithmException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        }
+    }
+    public static void setTxtF1(String text) {
+        txtF1.setText(text);
     }
 
+    public static void setTxtF2(String text) {
+        txtF2.setText(text);
+    }
     public static JTextField getTxtF1() {
         return txtF1;
     }
@@ -135,5 +210,13 @@ public class SendArpPanel extends GenericPanel {
     public static void setTxtF2(JTextField txtF2) {
         SendArpPanel.txtF2 = txtF2;
     }
+
+	public void setIpAddress(Integer[] ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
+	public Integer[] getIpAddress() {
+		return ipAddress;
+	}
 
 }

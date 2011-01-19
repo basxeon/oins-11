@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -21,7 +24,7 @@ public class OtherConvPanel extends GenericPanel {
     private Dimension butDimension;
 
     private JPanel p1;
-    private OtherConvTable otherConvTable;
+    private static OtherConvTable otherConvTable;
 
     public OtherConvPanel() {
         super();
@@ -31,7 +34,7 @@ public class OtherConvPanel extends GenericPanel {
         p1 = new JPanel();
 
         otherConvTable = new OtherConvTable();
-        otherConvTable.insertNewDate(null);
+      
 
         butDimension = new Dimension(BUTXSIZE, BUTYSIZE);
         but1 = new JButton(BUT1);
@@ -45,14 +48,31 @@ public class OtherConvPanel extends GenericPanel {
         this.add(p1, BorderLayout.SOUTH);
 
         but1.addActionListener(this);
+    
 
     }
 
+    public static void addRow(String ipSen, String ipRec, String protSen){
+    	Object[] tableObj = new Object[5];
+    	tableObj [0]=ipSen;
+    	tableObj [1]=ipRec;
+    	tableObj [2]=protSen;
+    	tableObj [3]=null;
+    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.ms");  
+        Date date = new Date();
+        tableObj [4]=dateFormat.format(date);
+    	addRow(tableObj);
+    	//TODO 
+    }
+    
     public static JButton getBut1() {
         return but1;
     }
 
-    public void insertNewData(Object[][] data) {
+    public static void addRow(Object[] data){
+    	otherConvTable.addRow(data);
+    }
+    public static void insertNewData(Object[][] data) {
         otherConvTable.insertNewDate(data);
     }
 

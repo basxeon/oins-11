@@ -6,8 +6,11 @@ import java.awt.Container;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import oins.communication.ArpListener;
+import oins.panels.ContactPanel;
 import oins.panels.ConversationPanel;
 import oins.panels.SendArpPanel;
+import oins.tables.ContactTable;
 
 /**
  * @author Robert Main class which is responsible for GUI
@@ -26,6 +29,8 @@ public class ConvFrame {
     private static String cardState;
     private SendArpPanel sendArpPanel;
     private ConversationPanel conversationPanel;
+    
+
 
     private void addComponentToPane(Container pane) {
 
@@ -35,8 +40,18 @@ public class ConvFrame {
         cardState = SENDARPPANEL;
 
         sendArpPanel = new SendArpPanel();
-        conversationPanel = new ConversationPanel();
-
+        System.out.println(ArpListener.isRecieving());
+        System.out.println(ArpListener.isSending());
+        if(ArpListener.isSending()==false && ArpListener.isRecieving()==false){
+        	conversationPanel = new ConversationPanel(ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress()));
+        	System.out.println(ContactTable.getIpAddress());
+        }
+        
+        else if (ArpListener.isRecieving()==true){
+        	conversationPanel = new ConversationPanel(ArpListener.getCurrIpInt());
+        	
+        }
+       
         switchPanel.add(sendArpPanel, SENDARPPANEL);
         switchPanel.add(conversationPanel, CONVPANEL);
 
@@ -70,6 +85,8 @@ public class ConvFrame {
         appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         appFrame.setSize(SIZEX, SIZEY);
         appFrame.setVisible(true);
+        
+        
     }
 
     public static void create() {
@@ -83,5 +100,9 @@ public class ConvFrame {
     /*
      * public static void main(String[] args) { ConvFrame.create(); }
      */
+
+
+
+
 
 }
