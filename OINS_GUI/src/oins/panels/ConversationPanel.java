@@ -24,15 +24,16 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
 
     private static final long serialVersionUID = 85203561313987695L;
     private static final String BUT1 = "Wyslij";
+    private static final String BUT2 = "Wyslij Arp";
     private static final String LABEL1 = "Status:";
     private static final Integer BUTXSIZE = new Integer(120);
     private static final Integer BUTYSIZE = new Integer(25);
     private static final Dimension TXTFILEDSIZE = new Dimension(520, 50);
 
-    private static JButton but1;
+    private static JButton but1,but2;
     private Dimension butDimension;
 
-    private JPanel p1, p2, p3, p4, p5, p6;
+    private JPanel p1, p2, p3, p4, p5, p6,p7;
     private JLabel label1;
     private static JTextField txtF1, txtF2;
     private static JTextArea txtArea;
@@ -46,10 +47,11 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         this.setSize(300, 300);
         p1 = new JPanel();
         p2 = new JPanel(new BorderLayout());
-        p3 = new JPanel(new GridLayout(1, 2));
+        p3 = new JPanel(new GridLayout(1, 3));
         p4 = new JPanel();
         p5 = new JPanel();
         p6 = new JPanel();
+        p7 = new JPanel();
 
         txtArea = new JTextArea();
         txtArea.setFont(new Font("Serif", Font.ITALIC, 16));
@@ -66,7 +68,12 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         but1 = new JButton(BUT1);
         but1.setActionCommand(BUT1);
         but1.setPreferredSize(butDimension);
-
+        
+        but2= new JButton(BUT2);
+        but2.setActionCommand(BUT2);
+        but2.setPreferredSize(butDimension);
+        but2.setEnabled(false);
+        
         label1 = new JLabel(LABEL1);
 
         txtF1 = new JTextField();
@@ -83,7 +90,9 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         p6.add(but1);
         p5.add(label1);
         p5.add(txtF1);
-
+        p7.add(but2);
+        
+        p3.add(p7);
         p3.add(p5);
         p3.add(p6);
 
@@ -180,5 +189,10 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     public void setTxtF1(String text) {
         txtF1.setText(text);
     }
+
+    public static JButton getBut2() {
+        return but2;
+    }
+    
 
 }

@@ -11,6 +11,7 @@ import oins.panels.ContactPanel;
 import oins.panels.ConversationPanel;
 import oins.panels.SendArpPanel;
 import oins.tables.ContactTable;
+import oins.utils.ConvFrameAdapter;
 
 /**
  * @author Robert Main class which is responsible for GUI
@@ -80,9 +81,11 @@ public class ConvFrame {
         JFrame appFrame = new JFrame(FRAMENAME);
         appFrame.setResizable(false);
         ConvFrame app = new ConvFrame();
+        ConvFrameAdapter adapter = new ConvFrameAdapter(app);
+        appFrame.addWindowListener(adapter);
         app.addComponentToPane(appFrame.getContentPane());
         appFrame.setLocation(200, 100);
-        appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ //       appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         appFrame.setSize(SIZEX, SIZEY);
         appFrame.setVisible(true);
         
@@ -97,9 +100,8 @@ public class ConvFrame {
             }
         });
     }
-    /*
-     * public static void main(String[] args) { ConvFrame.create(); }
-     */
+    
+     
 
 
 
