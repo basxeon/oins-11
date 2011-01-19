@@ -14,3 +14,5 @@ Strus:
 81 pytanie arplis 
 4. Dlugosc wiadomosci
 
+Dodatkowo:
+1. Wczytac parametr ArpListener.ARP_CLEAN z pliku konfiguracyjnego
