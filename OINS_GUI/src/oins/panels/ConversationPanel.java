@@ -29,6 +29,8 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     private static final Integer BUTXSIZE = new Integer(120);
     private static final Integer BUTYSIZE = new Integer(25);
     private static final Dimension TXTFILEDSIZE = new Dimension(520, 50);
+    
+    private static String userName;
 
     private static JButton but1,but2;
     private Dimension butDimension;
@@ -192,6 +194,14 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
 
     public static JButton getBut2() {
         return but2;
+    }
+
+    public static String getUserName() {
+        return userName;
+    }
+
+    public static void setUserName(String userName) {
+        ConversationPanel.userName = userName;
     }
     
 

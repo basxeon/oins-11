@@ -8,8 +8,10 @@ import javax.swing.JOptionPane;
 
 import oins.core.ConvFrame;
 import oins.panels.ContactPanel;
+import oins.panels.ConversationPanel;
 import oins.panels.OtherConvPanel;
 import oins.panels.SendArpPanel;
+import oins.tables.ContactTable;
 
 
 import org.jnetpcap.Pcap;
@@ -79,7 +81,8 @@ public class ArpListener extends TimerTask {
 								if(getPid()==1 || getPid()==2){
 									setRecieving(true);
                                     if (isSending() == false) {
-                                        int response = JOptionPane.showConfirmDialog(null, "Czy akceptujesz rozmowe od u¿ytkownika: " + " ", "Question", JOptionPane.YES_NO_OPTION);
+                                        ConversationPanel.setUserName(ContactTable.searchUserName(temp));
+                                        int response = JOptionPane.showConfirmDialog(null, "Czy akceptujesz rozmowe od u¿ytkownika: " + ConversationPanel.getUserName(), "Question", JOptionPane.YES_NO_OPTION);
                                         if (response == JOptionPane.YES_OPTION) {
                                             setCurrIp(Conversion.toString(temp));
                                             setCurrIpInt(temp);
