@@ -1,34 +1,55 @@
 package oins.communication;
 
+import oins.panels.ContactPanel;
+import oins.panels.ConversationPanel;
+import oins.tables.ContactTable;
+
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapBpfProgram;
+import org.jnetpcap.nio.JBuffer;
 import org.jnetpcap.packet.JPacket;
 import org.jnetpcap.packet.JPacketHandler;
+import org.jnetpcap.protocol.JProtocol;
+import org.jnetpcap.protocol.network.Icmp;
 import org.jnetpcap.protocol.network.Ip4;
-import oins.panels.ConversationPanel;
 
 
-public class TcpPacket {
-
-	private static final int PACKET_RATE=150;
-	private static  Ip4 ip = new Ip4();
-	private ConversationPanel panel;
-	private static MessageTcp message;
-	private static Integer[] Sendip;
+public class IcmpPacket {
+	
 	private static Pcap pcap;
+	private static Icmp icmp;
+	private static Ip4 ip;
+	private static Integer[] ipaddr;
+	private static JBuffer buff;
+	public static final int PACKET_RATE=2;
+	private static MessageIcmp message;
 	
-	public TcpPacket(ConversationPanel panel){
-	this.setPanel(panel);	
+	public static MessageIcmp getMessage() {
+		return message;
 	}
+
+
+
+	public static void setMessage(MessageIcmp message) {
+		IcmpPacket.message = message;
+	}
+
+
+
+	public IcmpPacket(){
+
+}
 	
-	public void sendPacket(Integer[] ipSender,String mess){
+
+
+	public static void sendPacket(String mess){
 		
 		StringBuilder str= new StringBuilder();
 		str.append(mess);
 		str.append("*");
 		
-		setSendip(ipSender);
-		panel.setTxtF1("Wysy³anie...");
+		
+		ConversationPanel.getTxtF1().setText("Wysylanie...");
 		StringBuilder errbuf = new StringBuilder();
 		/**
 		 * we open PCAP
@@ -52,8 +73,8 @@ public class TcpPacket {
 		 * FILTR
 		 */
 		
-		PcapBpfProgram program = new PcapBpfProgram();
-		String expression = "ip proto \\tcp and less 61";
+		/*PcapBpfProgram program = new PcapBpfProgram();
+		String expression = "ip proto \\icmp";
 		
 		int optimize = 0;         // 0 = false
 		int netmask = Conversion.netmask(NetInterface.getDevice().getAddresses().get(0).getNetmask().getData());
@@ -67,40 +88,35 @@ public class TcpPacket {
 			//TODO obsluga wyjatku
 			System.err.println(pcap.getErr());
 			return;		
-		}
+		}*/
 		
 		/**
 		 * Handlers
 		 */
-		System.out.println(getSendip());
+		ip=new Ip4();
 		JPacketHandler<String> sendingHandler = new JPacketHandler<String>() {
 
 			public void nextPacket(JPacket packet, String user) {
-			    try{
+			   //TODO wysylanie
 				if(packet.hasHeader(ip)){
-					if(Conversion.equal(ip.destination(), Conversion.convert(getSendip())) &&
-							Conversion.equal(ip.source(), Conversion.convert(NetInterface.getCurrIp()))){
+					
 						/*
 						 * trzeba sprawdzic czy wspiera send czy inject
 						 */
 						
-						TcpPadding.padding(packet, message.pollMesByte());
+						JBuffer baf=IcmpPadding.padding( message.pollMesByte());
 						
 						if(Pcap.isSendPacketSupported()){
 							
-							pcap.sendPacket(packet.getByteArray(0, packet.size()));	
+							pcap.sendPacket(baf);	
 							}
 						else if(Pcap.isInjectSupported()){
-							pcap.inject(packet.getByteArray(0, packet.size()),0,packet.size());
+							pcap.inject(baf,0,baf.size());
 								
 							}
-					}
-				}}catch(Exception e){
-				    System.out.println("wyjebalo sie2");
-				    e.printStackTrace();
 				}
-			}
-		};
+			
+		}};
 		JPacketHandler<String> waitingHandler = new JPacketHandler<String>() {
 
 			public void nextPacket(JPacket packet, String user) {
@@ -110,42 +126,40 @@ public class TcpPacket {
 				 */
 			}
 		};
-		MessageTcp m=new MessageTcp(str.toString());
+		MessageIcmp m=new MessageIcmp(str.toString());
 		setMessage(m);
-		setSendip(getPanel().getIpSender());
+	//	setSendip(getPanel().getIpSender());
 		
 		for (int k = 1; k>0 ;k=message.getMesByte().size()){
 			pcap.loop(1, sendingHandler, null);
 			pcap.loop(PACKET_RATE, waitingHandler, null);	
 		}
-		
 		System.out.println("Wyslalem");
 		pcap.close();
-		panel.setTxtF1("Wysy³ano");
+		ConversationPanel.getTxtF1().setText("Wysylano");
+		
+	}
+	private static void setIpaddr(Integer[] ipaddr) {
+		IcmpPacket.ipaddr = ipaddr;
 	}
 
-	private void setPanel(ConversationPanel panel) {
-		this.panel = panel;
+
+
+	public static Integer[] getIpaddr() {
+		return ipaddr;
 	}
 
-	public ConversationPanel getPanel() {
-		return panel;
+
+	public static void setBuff(JBuffer buff) {
+		IcmpPacket.buff = buff;
 	}
 
-	public static MessageTcp getMessage() {
-		return message;
+
+	public static JBuffer getBuff() {
+		return buff;
 	}
 
-	private static void setMessage(MessageTcp message) {
-		TcpPacket.message = message;
-	}
 
-	public static Integer[] getSendip() {
-		return Sendip;
-	}
 
-	private static void setSendip(Integer[] sendip) {
-		Sendip = sendip;
-	}
-
+	
 }

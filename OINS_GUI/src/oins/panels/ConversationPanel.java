@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import oins.communication.IcmpPacket;
 import oins.communication.TcpPacket;
 
 public class ConversationPanel extends GenericPanel implements KeyListener {
@@ -115,11 +116,17 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(BUT1)) {
+        	if(SendArpPanel.getCurrPID()==1){
+            	TcpPacket packet = new TcpPacket(this);
+                packet.sendPacket(getIpSender(), txtF2.getText());
+                ConversationPanel.setInTxtArea();
 
-            TcpPacket packet = new TcpPacket(this);
-
-            ConversationPanel.setInTxtArea();
-            packet.sendPacket(getIpSender(), txtF2.getText());
+            }
+            else if(SendArpPanel.getCurrPID()==2){
+            	
+            	IcmpPacket.sendPacket( txtF2.getText());
+                ConversationPanel.setInTxtArea();
+            }
 
         }
     }
@@ -184,10 +191,18 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     public void keyPressed(KeyEvent arg0) {
         switch (arg0.getKeyCode()) {
         case KeyEvent.VK_ENTER:
-            TcpPacket packet = new TcpPacket(this);
-            packet.sendPacket(getIpSender(), txtF2.getText());
-            ConversationPanel.setInTxtArea();
+            if(SendArpPanel.getCurrPID()==1){
+            	TcpPacket packet = new TcpPacket(this);
+                packet.sendPacket(getIpSender(), txtF2.getText());
+                ConversationPanel.setInTxtArea();
 
+            }
+            else if(SendArpPanel.getCurrPID()==2){
+            	
+            	IcmpPacket.sendPacket( txtF2.getText());
+                ConversationPanel.setInTxtArea();
+            }
+        	
             break;
         }
     }

@@ -3,16 +3,25 @@ package oins.communication;
 import org.jnetpcap.packet.JPacket;
 
 public class MessDecoding {
-	static String ms;
+	static String msTcp;
+	static String msIcmp;
 	
 
 	
-	public static final String getMs() {
-		return ms;
+	public static final String getMsTcp() {
+		return msTcp;
+	}
+	public static final String getMsIcmp() {
+		return msIcmp;
 	}
 
-	public static  void decode(JPacket packet){
+	public static  void decodeTcp(JPacket packet){
 		byte[] txt=packet.getByteArray(54, 6);
-		ms= new String(txt);
+		msTcp= new String(txt);
+	}
+	
+	public static  void decodeIcmp(JPacket packet){
+		byte[] txt=packet.getByteArray(42, 18);
+		msIcmp= new String(txt);
 	}
 }

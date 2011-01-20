@@ -126,7 +126,6 @@ public class ArpAvail {
 		for(int i=0; i<getBuff().size();i++){
 			
 			if(pcap.isSendPacketSupported()){
-				System.out.println(getBuff().get(i).toHexdump());
 				pcap.sendPacket(getBuff().get(i));	
 			}
 			else if(pcap.isInjectSupported()){
