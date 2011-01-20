@@ -57,10 +57,9 @@ public class OtherConvPanel extends GenericPanel {
     	tableObj [0]=ipSen;
     	tableObj [1]=ipRec;
     	tableObj [2]=protSen;
-    	tableObj [3]=null;
     	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.ms");  
         Date date = new Date();
-        tableObj [4]=dateFormat.format(date);
+        tableObj [3]=dateFormat.format(date);
     	addRow(tableObj);
     	//TODO 
     }
