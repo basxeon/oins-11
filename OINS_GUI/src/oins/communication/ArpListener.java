@@ -118,16 +118,20 @@ public class ArpListener extends TimerTask {
 								else if (getPid()==3){
 									System.out.println("Odebralem dostepnosc");
 									ContactTable.updateRowAvail("Dostepny",ContactTable.searchColumnNumber(temp));
-									if(!isSend_avail()){
+									
 										ArpPacket arpPacket;
 										try {
-											arpPacket = new ArpPacket(temp, 3);
+											arpPacket = new ArpPacket(temp, 4);
 											arpPacket.sendArp();
 										} catch (IOException e) {
 											e.printStackTrace();
 										}
-									}
+									
 								 
+									
+								}
+								else if (getPid()==4){
+									ContactTable.updateRowAvail("Dostepny",ContactTable.searchColumnNumber(temp));
 									
 								}
 								else{

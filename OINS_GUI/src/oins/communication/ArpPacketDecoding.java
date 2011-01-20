@@ -15,7 +15,7 @@ import org.jnetpcap.packet.JPacket;
 
 public class ArpPacketDecoding {
 	JPacket packet;
-	int PidMax = 2;
+	int PidMax = 4;
 	int Pid;
 	
 	public int getPid() {
