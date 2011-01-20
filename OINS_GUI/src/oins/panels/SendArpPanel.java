@@ -11,12 +11,15 @@ import java.security.NoSuchAlgorithmException;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import oins.communication.ArpListener;
 import oins.communication.ArpPacket;
+import oins.communication.IcmpPacket;
+import oins.communication.IcmpPrimListen;
 import oins.communication.TcpListener;
 import oins.core.ConvFrame;
 import oins.tables.ContactTable;
@@ -162,7 +165,9 @@ public class SendArpPanel extends GenericPanel {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(BUT1)) {
-            if (ArpListener.isRecieving() == false) {
+            
+        	//TODO uruchomienie ICMP listenera
+        	if (ArpListener.isRecieving() == false) {
                 TcpListener tcp = new TcpListener(ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress()));
                 tcp.start();
             } else {
@@ -175,18 +180,18 @@ public class SendArpPanel extends GenericPanel {
             ConvFrame.changeCard();
         } else if (e.getActionCommand().equals(BUT2)) {
             try {
-                // Narazie domyœlnie ustawiam pid=1
 
                 ArpListener.setSending(true);
                 if (ArpListener.isRecieving() == true && ArpListener.isSending() == true) {
-                    ArpPacket arpPacket = new ArpPacket(ArpListener.getCurrIpInt(), getCurrPID());
+                    
+                	ArpPacket arpPacket = new ArpPacket(ArpListener.getCurrIpInt(), getCurrPID());
                     arpPacket.sendArp();
                     but1.setEnabled(true);
                     setTxtF1("Wyslano pakiet Arp");
                    
 
                 } else {
-                    ArpPacket arpPacket = new ArpPacket(getIpAddress(), 1);
+                    ArpPacket arpPacket = new ArpPacket(getIpAddress(), getCurrPID());
                     arpPacket.sendArp();
                     setTxtF1("Wysy³anie...");
                     
@@ -206,6 +211,9 @@ public class SendArpPanel extends GenericPanel {
         }
         else if(e.getActionCommand().equals(CHB2)){
         	setCurrPID(2);
+        	JOptionPane.showMessageDialog(null, "Najpierw wpisz w cmd: ping "+ContactTable.getIpAddress(), "Information", JOptionPane.INFORMATION_MESSAGE);
+        	IcmpPrimListen icmL= new IcmpPrimListen(ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress() ));
+        	icmL.start();
         	
         }
     }

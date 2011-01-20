@@ -81,6 +81,7 @@ public class ArpListener extends Thread {
 								if(getPid()==1 || getPid()==2){
 									setRecieving(true);
                                     if (isSending() == false) {
+                                    	System.out.println("Dostalem pid "+SendArpPanel.getCurrPID());
                                         ConversationPanel.setUserName(ContactTable.searchUserName(temp));
                                         int response = JOptionPane.showConfirmDialog(null, "Czy akceptujesz rozmowe od u¿ytkownika: " + ConversationPanel.getUserName(), "Question", JOptionPane.YES_NO_OPTION);
                                         if (response == JOptionPane.YES_OPTION) {
@@ -156,7 +157,7 @@ public class ArpListener extends Thread {
 												OtherConvPanel.addRow(ipSend, ipRec, protSend);
 											}
 											else{
-												protSend="Nieokreslony";
+												//protSend="Nieokreslony";
 											}
 											
 											
@@ -192,6 +193,7 @@ public class ArpListener extends Thread {
 		setClosePcap(false);
 		while(isRunning()){
 			// ilosc pakietow
+			System.out.println("Dzialam");
 			getPcap().loop(100000, getJpacketHandler(),"OINS");
 			System.out.println("Koniec");
 			if(isClosedPcap()){
