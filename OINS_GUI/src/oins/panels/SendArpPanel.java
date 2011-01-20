@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 import oins.communication.ArpListener;
 import oins.communication.ArpPacket;
-import oins.communication.IcmpPacket;
+import oins.communication.IcmpListener;
 import oins.communication.IcmpPrimListen;
 import oins.communication.TcpListener;
 import oins.core.ConvFrame;
@@ -167,13 +167,16 @@ public class SendArpPanel extends GenericPanel {
         if (e.getActionCommand().equals(BUT1)) {
             
         	//TODO uruchomienie ICMP listenera
-        	if (ArpListener.isRecieving() == false) {
-                TcpListener tcp = new TcpListener(ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress()));
+        	if(ArpListener.getPid()==1){
+        		TcpListener tcp = new TcpListener(ArpListener.getCurrIpInt());
                 tcp.start();
-            } else {
-                TcpListener tcp = new TcpListener(ArpListener.getCurrIpInt());
-                tcp.start();
-            }
+        	}
+        	else if(ArpListener.getPid()==1){
+        		IcmpListener icmp = new IcmpListener(ArpListener.getCurrIpInt());
+                icmp.start();
+        	}
+                
+            
             ArpListener.setRecieving(false);
             ArpListener.setSending(false);
 

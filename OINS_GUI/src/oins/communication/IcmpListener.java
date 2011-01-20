@@ -10,7 +10,7 @@ import org.jnetpcap.packet.JPacket;
 import org.jnetpcap.packet.JPacketHandler;
 import org.jnetpcap.protocol.network.Ip4;
 
-public class TcpListener extends Thread {
+public class IcmpListener extends Thread {
 	
 	private Pcap pcap; 
 	JPacketHandler<String> jpacketHandler;
@@ -20,9 +20,9 @@ public class TcpListener extends Thread {
 
 	
 	
-	public TcpListener(Integer[] ipSender){
+	public IcmpListener(Integer[] ipSender){
 		
-		TcpListener.ipSender=ipSender;
+		IcmpListener.ipSender=ipSender;
 		StringBuilder errbuf = new StringBuilder();
 		
 		int snaplen = 61; // capture packet less than 61B
@@ -39,7 +39,7 @@ public class TcpListener extends Thread {
 		}
 		
 		PcapBpfProgram program = new PcapBpfProgram();
-		String expression = "ip proto \\tcp and less 61";
+		String expression = "ip proto \\icmp";
 		
 		int optimize = 0;         // 0 = false
 		int netmask = Conversion.netmask(NetInterface.getDevice().getAddresses().get(0).getNetmask().getData());
@@ -62,23 +62,23 @@ public class TcpListener extends Thread {
 				if(packet.hasHeader(ip)){
 				if(Conversion.equal(ip.destination(), Conversion.convert(NetInterface.getCurrIp()) ) &&
 						Conversion.equal(ip.source(),Conversion.convert(getIpSender()) )){
-				
-				if(packet.size()>54){
-					if(packet.getByte(54)!=0){
-						MessDecoding.decodeTcp(packet);
+					
+					//TODO dekodowanie
+				if(packet.size()==60){
+						MessDecoding.decodeIcmp(packet);
 						System.out.println("dekoduje");
-						//setText(MessDecoding.getMs());
 						
-						ConversationPanel.setInTxtArea(MessDecoding.getMsTcp());
+						ConversationPanel.setInTxtArea(MessDecoding.getMsIcmp());
 				}
 				}
 				}
-                    }
+				
                 } catch(Exception e){
 			System.out.println("wyjebalo sie");}
 			}
 			
 		};
+		
 		setJpacketHandler(listeningHandler);
 		
 	}
@@ -114,7 +114,7 @@ public class TcpListener extends Thread {
 	}
 
 	public static void setIpSender(Integer[] ipSender) {
-		TcpListener.ipSender = ipSender;
+		IcmpListener.ipSender = ipSender;
 	}
 
 
