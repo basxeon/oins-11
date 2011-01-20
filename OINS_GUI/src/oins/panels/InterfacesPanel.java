@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import oins.communication.ArpAvail;
+import oins.communication.ArpCleaner;
 import oins.communication.ArpListener;
 import oins.communication.NetInterface;
 import oins.core.Application;
@@ -116,10 +117,12 @@ public class InterfacesPanel extends GenericPanel {
                     "Question", JOptionPane.YES_NO_OPTION);
             if (response == JOptionPane.YES_OPTION) {
                 InformationPanel.setTxtF3(InterfacesTable.getChoosenInterface());
-                Timer timer1 = new Timer();
+                Timer timer2 = new Timer();
                 ArpListener arplist= new ArpListener();
-                
-         timer1.schedule(arplist, 10, ArpListener.ARP_CLEAN*60*1000);
+                arplist.start();
+                ArpCleaner arpcl= new ArpCleaner();
+           
+         timer2.schedule(arpcl, 10, ArpCleaner.ARP_CLEAN*60*1000);
          ContactTable.updateRowNotAvailAll();
          ArpAvail avail;
 		try {
