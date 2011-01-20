@@ -134,7 +134,6 @@ public class ArpAvail {
 			}
 		}	
 		System.out.println("Wysylam do wszystkich");
-		ArpListener.setSend_avail(true);
 		pcap.close();
 		
 	}

@@ -2,8 +2,6 @@ package oins.communication;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.TimerTask;
-
 import javax.swing.JOptionPane;
 
 
@@ -21,21 +19,16 @@ import org.jnetpcap.packet.JPacket;
 import org.jnetpcap.packet.JPacketHandler;
 import org.jnetpcap.protocol.network.Arp;
 
-public class ArpListener extends TimerTask {
+public class ArpListener extends Thread {
 
 	private static final Arp arp=new Arp();
-	public static final int ARP_CLEAN=10;
+	
 	private Pcap pcap; 
 	JPacketHandler<String> jpacketHandler;
 	private static int pid;
 	private static boolean recieving; 
 	private static boolean sending; 
-	private static boolean send_avail;
-	
-
-
-
-
+	private static boolean running, closePcap;
 	private static String currIp;
 	private static Integer[] currIpInt;
 	public ArpListener(){
@@ -195,24 +188,18 @@ public class ArpListener extends TimerTask {
 	
 	@Override
 	public void run() {
-		// ilosc pakietow
-			getPcap().loop(1000000, getJpacketHandler(),"OINS");
+		setRunning(true);
+		setClosePcap(false);
+		while(isRunning()){
+			// ilosc pakietow
+			getPcap().loop(100000, getJpacketHandler(),"OINS");
 			System.out.println("Koniec");
-			try {
-				ArpAvail avail=new ArpAvail(ContactPanel.getIpAdressesInt(),3);
-				avail.sendArp();
-			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(isClosedPcap()){
+				pcap.close();
 			}
-			JOptionPane.showMessageDialog(null, "Wyslano Arp z informacja o Dostepnosci", "Information", JOptionPane.INFORMATION_MESSAGE);
-			pcap.close();
+		}
+		
 	}
-
-
 
 
 	public Pcap getPcap() {
@@ -311,16 +298,32 @@ public class ArpListener extends TimerTask {
 
 
 
-	public static boolean isSend_avail() {
-		return send_avail;
+	public static void setRunning(boolean running) {
+		ArpListener.running = running;
 	}
 
 
 
 
-	public static void setSend_avail(boolean sendAvail) {
-		send_avail = sendAvail;
+	public static boolean isRunning() {
+		return running;
 	}
+
+
+
+
+	public static void setClosePcap(boolean closePcap) {
+		ArpListener.closePcap = closePcap;
+	}
+
+
+
+
+	public static boolean isClosedPcap() {
+		return closePcap;
+	}
+
+
 
 
 	
