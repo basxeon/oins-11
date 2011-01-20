@@ -73,6 +73,7 @@ public class OtherConvTable extends JPanel {
         tableModel.setNewData(data);
         
     }
+
     public void addRow(Object[] data){
     	tableModel.addRow(data);
     }

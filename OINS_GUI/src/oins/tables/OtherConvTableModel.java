@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableModel;
 public class OtherConvTableModel extends DefaultTableModel {
 
     private static final long serialVersionUID = 328501000808821225L;
-    private static final Object[] COLUMNNAMES = { "Nadawca", "Odbiorca", "Prot_Nad.", "Prot_Odb", "Data" };
+    private static final Object[] COLUMNNAMES = { "Nadawca", "Odbiorca", "Prot_Nad.", "Data" };
 
     public OtherConvTableModel(Object[][] data) {
         super(data, COLUMNNAMES);
