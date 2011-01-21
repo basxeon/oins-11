@@ -2,6 +2,8 @@ package oins.communication;
 
 import javax.swing.JOptionPane;
 
+import oins.panels.SendArpPanel;
+
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapBpfProgram;
 import org.jnetpcap.nio.JBuffer;
@@ -86,6 +88,7 @@ public class IcmpPrimListen extends Thread {
 										setBuff(new JBuffer(packet.getByteArray(0, 60)));
 										setRecieved(true);
 										JOptionPane.showMessageDialog(null, "Mozesz skorzystac z protokolu ICMP do komunikacji", "Information", JOptionPane.INFORMATION_MESSAGE);
+										SendArpPanel.getBut2().setEnabled(true);
 									}
 									
 								}	
