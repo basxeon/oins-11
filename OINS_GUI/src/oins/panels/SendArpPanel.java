@@ -219,6 +219,7 @@ public class SendArpPanel extends GenericPanel {
         } else if (e.getActionCommand().equals(CHB2)) {
             setCurrPID(2);
             JOptionPane.showMessageDialog(null, "Najpierw wpisz w cmd: ping " + ContactTable.getIpAddress(), "Information", JOptionPane.INFORMATION_MESSAGE);
+            but2.setEnabled(false);
             IcmpPrimListen icmL = new IcmpPrimListen(ContactPanel.getAddressIpAsInteger(ContactTable.getIpAddress()));
             icmL.start();
 
