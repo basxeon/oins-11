@@ -1,27 +1,22 @@
 package oins.communication;
 
-import oins.panels.ContactPanel;
 import oins.panels.ConversationPanel;
-import oins.tables.ContactTable;
 
 import org.jnetpcap.Pcap;
-import org.jnetpcap.PcapBpfProgram;
 import org.jnetpcap.nio.JBuffer;
 import org.jnetpcap.packet.JPacket;
 import org.jnetpcap.packet.JPacketHandler;
-import org.jnetpcap.protocol.JProtocol;
-import org.jnetpcap.protocol.network.Icmp;
 import org.jnetpcap.protocol.network.Ip4;
 
 
 public class IcmpPacket {
 	
 	private static Pcap pcap;
-	private static Icmp icmp;
+
 	private static Ip4 ip;
 	private static Integer[] ipaddr;
 	private static JBuffer buff;
-	public static final int PACKET_RATE=2;
+	public static final int PACKET_RATE=800;
 	private static MessageIcmp message;
 	
 	public static MessageIcmp getMessage() {
@@ -49,7 +44,7 @@ public class IcmpPacket {
 		str.append("*");
 		
 		
-		ConversationPanel.getTxtF1().setText("Wysylanie...");
+		ConversationPanel.getTxtF1().setText("Wysylanie");
 		StringBuilder errbuf = new StringBuilder();
 		/**
 		 * we open PCAP
@@ -72,23 +67,7 @@ public class IcmpPacket {
 		/**
 		 * FILTR
 		 */
-		
-		/*PcapBpfProgram program = new PcapBpfProgram();
-		String expression = "ip proto \\icmp";
-		
-		int optimize = 0;         // 0 = false
-		int netmask = Conversion.netmask(NetInterface.getDevice().getAddresses().get(0).getNetmask().getData());
-		
-		if (pcap.compile(program, expression, optimize, netmask) != Pcap.OK) {
-			//TODO osbluga wyjatku
-			System.err.println(pcap.getErr());
-			return;
-		}
-		if (pcap.setFilter(program) != Pcap.OK) {
-			//TODO obsluga wyjatku
-			System.err.println(pcap.getErr());
-			return;		
-		}*/
+	
 		
 		/**
 		 * Handlers
@@ -128,20 +107,19 @@ public class IcmpPacket {
 		};
 		MessageIcmp m=new MessageIcmp(str.toString());
 		setMessage(m);
-	//	setSendip(getPanel().getIpSender());
+
 		
 		for (int k = 1; k>0 ;k=message.getMesByte().size()){
-			pcap.loop(1, sendingHandler, null);
+			
 			pcap.loop(PACKET_RATE, waitingHandler, null);	
+			pcap.loop(1, sendingHandler, null);
 		}
 		System.out.println("Wyslalem");
 		pcap.close();
 		ConversationPanel.getTxtF1().setText("Wysylano");
 		
 	}
-	private static void setIpaddr(Integer[] ipaddr) {
-		IcmpPacket.ipaddr = ipaddr;
-	}
+	
 
 
 
