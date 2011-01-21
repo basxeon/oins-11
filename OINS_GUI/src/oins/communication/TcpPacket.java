@@ -96,7 +96,7 @@ public class TcpPacket {
 							}
 					}
 				}}catch(Exception e){
-				    e.printStackTrace();
+				    System.out.println("w catch");
 				}
 			}
 		};
