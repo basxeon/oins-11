@@ -117,15 +117,18 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(BUT1)) {
         	if(SendArpPanel.getCurrPID()==1){
-            	TcpPacket packet = new TcpPacket(this);
+        		ConversationPanel.getTxtF1().setText("Wysylanie...");
+        		TcpPacket packet = new TcpPacket(this);
                 packet.sendPacket(getIpSender(), txtF2.getText());
                 ConversationPanel.setInTxtArea();
+                
 
             }
             else if(SendArpPanel.getCurrPID()==2){
-            	
+            	 ConversationPanel.getTxtF1().setText("Wysylanie...");
             	IcmpPacket.sendPacket( txtF2.getText());
                 ConversationPanel.setInTxtArea();
+               
             }
 
         }
@@ -192,15 +195,19 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
         switch (arg0.getKeyCode()) {
         case KeyEvent.VK_ENTER:
             if(SendArpPanel.getCurrPID()==1){
+            	ConversationPanel.getTxtF1().setText("Wysylanie...");
             	TcpPacket packet = new TcpPacket(this);
                 packet.sendPacket(getIpSender(), txtF2.getText());
+                
                 ConversationPanel.setInTxtArea();
+                
 
             }
             else if(SendArpPanel.getCurrPID()==2){
-            	
+            	ConversationPanel.getTxtF1().setText("Wysylanie...");
             	IcmpPacket.sendPacket( txtF2.getText());
-                ConversationPanel.setInTxtArea();
+            	ConversationPanel.setInTxtArea();
+                
             }
         	
             break;

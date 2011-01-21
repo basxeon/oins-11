@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 import oins.panels.ConversationPanel;
 
 import org.jnetpcap.Pcap;
-import org.jnetpcap.PcapBpfProgram;
 import org.jnetpcap.packet.JPacket;
 import org.jnetpcap.packet.JPacketHandler;
 import org.jnetpcap.protocol.network.Icmp;
@@ -30,7 +29,7 @@ public class IcmpListener extends Thread {
 		int snaplen = 61; // capture packet less than 61B
 		int flags = Pcap.MODE_PROMISCUOUS; // capture all packets
 		int timeout = 60 * 10000; // 600 seconds= 10 minutes
-		//int timeout = 1; 
+		
 		setPcap(Pcap.openLive(NetInterface.getDevice().getName(), snaplen, flags, timeout, errbuf));
 		
 
@@ -40,22 +39,6 @@ public class IcmpListener extends Thread {
 			return;
 		}
 		
-		/*PcapBpfProgram program = new PcapBpfProgram();
-		String expression = "ether proto \\icmp";
-		
-		int optimize = 0;         // 0 = false
-		int netmask = Conversion.netmask(NetInterface.getDevice().getAddresses().get(0).getNetmask().getData());
-		
-		if (pcap.compile(program, expression, optimize, netmask) != Pcap.OK) {
-			//TODO osbluga wyjatku
-			System.err.println(pcap.getErr());
-			return;
-		}
-		if (pcap.setFilter(program) != Pcap.OK) {
-			//TODO obsluga wyjatku
-			System.err.println(pcap.getErr());
-			return;		
-		}*/
 		JPacketHandler<String> listeningHandler = new JPacketHandler<String>() {
 
 			public void nextPacket(JPacket packet, String user) {

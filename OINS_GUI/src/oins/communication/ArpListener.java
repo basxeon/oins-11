@@ -36,7 +36,7 @@ public class ArpListener extends Thread {
 
         int snaplen = 61; // capture packet less than 61B
         int flags = Pcap.MODE_PROMISCUOUS; // capture all packets
-        // int timeout = 60 * 10000; // 600 seconds= 10 minutes
+       
         int timeout = 1;
         setPcap(Pcap.openLive(NetInterface.getDevice().getName(), snaplen, flags, timeout, errbuf));
 
@@ -72,14 +72,14 @@ public class ArpListener extends Thread {
                             if (Conversion.equal(arp.spa(), Conversion.convert(temp))
                                     && Conversion.equal(arp.tpa(), Conversion.convert(NetInterface.getCurrIp()))) {
                                 ArpPacketDecoding dec = new ArpPacketDecoding(packet);
-                                int i = dec.checkPID();
+                       
                                 setPid(dec.checkPID());
 
                                 if (getPid() == 1 || getPid() == 2) {
                                     SendArpPanel.setSendPid(getPid());
                                     setRecieving(true);
                                     if (isSending() == false) {
-                                        System.out.println("Dostalem pid " + SendArpPanel.getCurrPID());
+                                       
                                         ConversationPanel.setUserName(ContactTable.searchUserName(temp));
                                         int response = JOptionPane.showConfirmDialog(null, "Czy akceptujesz rozmowe od u¿ytkownika: "
                                                 + ConversationPanel.getUserName(), "Question", JOptionPane.YES_NO_OPTION);
@@ -107,7 +107,7 @@ public class ArpListener extends Thread {
 
                                 } else if (getPid() == 3) {
                                     SendArpPanel.setSendPid(getPid());
-                                    System.out.println("Odebralem dostepnosc");
+                                   
                                     ContactTable.updateRowAvail("Dostepny", ContactTable.searchColumnNumber(temp));
 
                                     ArpPacket arpPacket;
@@ -123,7 +123,7 @@ public class ArpListener extends Thread {
                                     ContactTable.updateRowAvail("Dostepny", ContactTable.searchColumnNumber(temp));
 
                                 } else {
-                                    System.out.println("odebralem jakies arp");
+                                
                                 }
 
                             }

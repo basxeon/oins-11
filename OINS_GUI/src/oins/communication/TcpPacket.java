@@ -10,7 +10,7 @@ import oins.panels.ConversationPanel;
 
 public class TcpPacket {
 
-	private static final int PACKET_RATE=150;
+	private static final int PACKET_RATE=20;
 	private static  Ip4 ip = new Ip4();
 	private ConversationPanel panel;
 	private static MessageTcp message;

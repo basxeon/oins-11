@@ -101,9 +101,9 @@ public class SendArpPanel extends GenericPanel {
 
         if (ArpListener.isRecieving() == true && ArpListener.isSending() == false) {
             SendArpPanel.setTxtF2("Odebrano pakiet Arp");
-            if (ArpListener.getPid() == 1) {
+            if (sendPid == 1) {
                 SendArpPanel.setTxtF3("TCP");
-            } else if (ArpListener.getPid() == 2) {
+            } else if (sendPid  == 2) {
                 SendArpPanel.setTxtF3("ICMP");
 
             }
@@ -173,8 +173,7 @@ public class SendArpPanel extends GenericPanel {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(BUT1)) {
 
-            // TODO uruchomienie ICMP listenera
-            int i = ArpListener.getPid();
+           
             if (SendArpPanel.getSendPid() == 1) {
                 TcpListener tcp = new TcpListener(ArpListener.getCurrIpInt());
                 tcp.start();
