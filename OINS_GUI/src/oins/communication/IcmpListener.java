@@ -8,6 +8,7 @@ import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapBpfProgram;
 import org.jnetpcap.packet.JPacket;
 import org.jnetpcap.packet.JPacketHandler;
+import org.jnetpcap.protocol.network.Icmp;
 import org.jnetpcap.protocol.network.Ip4;
 
 public class IcmpListener extends Thread {
@@ -15,6 +16,7 @@ public class IcmpListener extends Thread {
 	private Pcap pcap; 
 	JPacketHandler<String> jpacketHandler;
 	private static  Ip4 ip = new Ip4();
+	private static  Icmp icmp = new Icmp();
 	private static Integer[] ipSender;
 
 
@@ -38,8 +40,8 @@ public class IcmpListener extends Thread {
 			return;
 		}
 		
-		PcapBpfProgram program = new PcapBpfProgram();
-		String expression = "ip proto \\icmp";
+		/*PcapBpfProgram program = new PcapBpfProgram();
+		String expression = "ether proto \\icmp";
 		
 		int optimize = 0;         // 0 = false
 		int netmask = Conversion.netmask(NetInterface.getDevice().getAddresses().get(0).getNetmask().getData());
@@ -53,7 +55,7 @@ public class IcmpListener extends Thread {
 			//TODO obsluga wyjatku
 			System.err.println(pcap.getErr());
 			return;		
-		}
+		}*/
 		JPacketHandler<String> listeningHandler = new JPacketHandler<String>() {
 
 			public void nextPacket(JPacket packet, String user) {
@@ -64,12 +66,15 @@ public class IcmpListener extends Thread {
 						Conversion.equal(ip.source(),Conversion.convert(getIpSender()) )){
 					
 					//TODO dekodowanie
-				if(packet.size()==60){
-						MessDecoding.decodeIcmp(packet);
-						System.out.println("dekoduje");
-						
-						ConversationPanel.setInTxtArea(MessDecoding.getMsIcmp());
-				}
+//				if(packet.size()==60){
+				    if(packet.hasHeader(icmp)){
+
+                        MessDecoding.decodeIcmp(packet);
+                        System.out.println("dekoduje");
+                        
+                        ConversationPanel.setInTxtArea(MessDecoding.getMsIcmp());
+				   }
+//				}
 				}
 				}
 				
@@ -82,6 +87,7 @@ public class IcmpListener extends Thread {
 		setJpacketHandler(listeningHandler);
 		
 	}
+
 
 	public void run() {
 		// ilosc pakietow
