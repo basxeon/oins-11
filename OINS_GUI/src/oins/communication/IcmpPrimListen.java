@@ -97,7 +97,6 @@ public class IcmpPrimListen extends Thread {
 						
 					}
 				}catch(Exception e){
-				    System.out.println("wyjebalo sie2");
 				    e.printStackTrace();
 				}
 		}

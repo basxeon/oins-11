@@ -62,7 +62,7 @@ public class IcmpListener extends Thread {
 				}
 				
                 } catch(Exception e){
-			System.out.println("wyjebalo sie");}
+			System.out.println("w catch");}
 			}
 			
 		};

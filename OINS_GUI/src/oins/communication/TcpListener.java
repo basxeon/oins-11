@@ -75,7 +75,8 @@ public class TcpListener extends Thread {
 				}
                     }
                 } catch(Exception e){
-			System.out.println("wyjebalo sie");}
+                    e.printStackTrace();
+                }
 			}
 			
 		};
