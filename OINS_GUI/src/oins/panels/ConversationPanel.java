@@ -117,7 +117,7 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(BUT1)) {
         	if(SendArpPanel.getCurrPID()==1){
-        		ConversationPanel.getTxtF1().setText("Wysylanie...");
+        		 setTxtF1("Wysylanie...");
         		TcpPacket packet = new TcpPacket(this);
                 packet.sendPacket(getIpSender(), txtF2.getText());
                 ConversationPanel.setInTxtArea();
@@ -125,8 +125,9 @@ public class ConversationPanel extends GenericPanel implements KeyListener {
 
             }
             else if(SendArpPanel.getCurrPID()==2){
-            	 ConversationPanel.getTxtF1().setText("Wysylanie...");
+            	 setTxtF1("Wysylanie...");
             	IcmpPacket.sendPacket( txtF2.getText());
+            	 
                 ConversationPanel.setInTxtArea();
                
             }
